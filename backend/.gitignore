@@ -8,14 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-
-backend/dist
-frontend/dist
-
-backend/.env
-tasksmanager-main
-task-mg
-frontend/.env
+dist
 dist-ssr
 *.local
 
