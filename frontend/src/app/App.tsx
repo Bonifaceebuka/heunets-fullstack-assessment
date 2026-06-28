@@ -8,6 +8,7 @@ import CreateProject from "../features/projects/pages/CreateProjects";
 import AuthLayout from "../features/auth/layout/AuthLayout";
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseLine from '@mui/material/CssBaseline'
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ function App() {
 <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <CssBaseLine />
+      <Toaster richColors position="top-right" />
     <BrowserRouter>
         <Routes>
           <Route path='/' element={<AuthLayout />}>
