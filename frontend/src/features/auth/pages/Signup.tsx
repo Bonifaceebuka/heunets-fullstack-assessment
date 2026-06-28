@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { signupSchema, type SignupFormData } from '../../dtos/signupSchema'
 import { useQueryClient } from "@tanstack/react-query";
 import { useSignupStore } from '../store/useSignupStore';
-import { useUserSignup } from '../api/authApi';
+import { useUserSignup } from '../api/signupApi';
 import { toast } from "sonner";
 
 const Signup = () => {
