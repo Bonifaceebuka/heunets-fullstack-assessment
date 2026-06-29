@@ -10,7 +10,11 @@ export abstract class BaseRepository<T> {
   constructor(protected readonly model: Model<T>) {}
 
   async create(data: Partial<T>): Promise<HydratedDocument<T>> {
-    return this.model.create(data);
+    return this.model.create({
+      ...data,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
   }
 
   async findOne(
@@ -41,13 +45,16 @@ export abstract class BaseRepository<T> {
     where: FilterQuery<T>,
     updates: UpdateQuery<T>,
   ): Promise<T | null> {
-    return this.model.findOneAndUpdate(where, updates, {
+    return this.model.findOneAndUpdate(where, {
+      ...updates,
+      updated_at: new Date()
+    }, {
       new: true,
     });
   }
 
   async delete(
-    conditions: Model<T>,
+    conditions: FilterQuery<T>,
   ): Promise<void> {
     await this.model.deleteMany(conditions);
   }

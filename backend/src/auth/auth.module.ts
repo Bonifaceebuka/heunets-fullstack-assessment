@@ -31,7 +31,7 @@ import { CustomConfigModule } from 'src/shared/config/config.module';
     JwtModule.registerAsync({
       imports: [CustomConfigModule],
         useFactory: async (configService: CustomConfigService) => ({
-            signOptions: { expiresIn: '1h' },
+            signOptions: { expiresIn: '24h' },
             secret: configService.getAppEnv().JWT_SECRET
         }),
         inject: [CustomConfigService]
