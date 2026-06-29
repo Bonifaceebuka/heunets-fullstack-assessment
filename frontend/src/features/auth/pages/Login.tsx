@@ -42,9 +42,7 @@ const Login = () => {
           margin='normal'
           required
           fullWidth
-          id='username'
-          label='Username'
-          name='username'
+          label='Email'
           disabled={submitting}
           error={errors.email !== undefined}
           helperText={errors.email?.message}
@@ -54,9 +52,7 @@ const Login = () => {
           margin='normal'
           required
           fullWidth
-          id='password'
           label='Password'
-          name='password'
           type='password'
           disabled={submitting}
           error={errors.password !== undefined}

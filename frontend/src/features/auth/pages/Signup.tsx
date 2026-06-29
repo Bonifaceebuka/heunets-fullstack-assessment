@@ -44,9 +44,7 @@ const Signup = () => {
           margin='normal'
           required
           fullWidth
-          id='full_name'
           label='Full Name'
-          name='full_name'
           disabled={submitting}
           {...register("full_name")}
           error={!!errors.full_name}
@@ -56,9 +54,7 @@ const Signup = () => {
           margin='normal'
           required
           fullWidth
-          id='email'
           label='Email'
-          name='email'
           type='email'
           {...register("email")}
           disabled={submitting}
@@ -69,9 +65,7 @@ const Signup = () => {
           margin='normal'
           required
           fullWidth
-          id='password'
           label='Password'
-          name='password'
           type='password'
           {...register("password")}
           disabled={submitting}
@@ -82,9 +76,7 @@ const Signup = () => {
           margin='normal'
           required
           fullWidth
-          id='confirmPassword'
           label='Confirm Password'
-          name='confirmPassword'
           type='password'
           {...register("confirmPassword")}
           disabled={submitting}

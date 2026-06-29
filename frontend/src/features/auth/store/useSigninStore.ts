@@ -9,7 +9,7 @@ import type { ISigninUserStore } from "../types/ISigninUserStore";
 
 export const useSigninStore =
   create<ISigninUserStore>()(
-    devtools((set, get) => ({
+    devtools((set) => ({
       submitting: false,
       successMsg: "",
       errorMsg: "",

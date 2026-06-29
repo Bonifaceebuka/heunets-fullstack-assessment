@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 export const useSignupStore =
   create<ISignupUserStore>()(
-    devtools((set, get) => ({
+    devtools((set) => ({
       submitting: false,
       successMsg: "",
       errorMsg: "",

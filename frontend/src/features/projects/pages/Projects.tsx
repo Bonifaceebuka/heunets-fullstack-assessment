@@ -5,8 +5,6 @@ import { useGetProjects } from "../apis/get-projects";
 export default function Projects() {
     const {
     data: projects,
-    isLoading,
-    isError,
   } = useGetProjects();
 
   console.log(projects)
@@ -41,7 +39,7 @@ export default function Projects() {
 
           <tbody>
 
-            {projects?.data?.map((project) => (
+            {projects?.data?.map((project: any) => (
 
               <tr key={project.id}>
 
