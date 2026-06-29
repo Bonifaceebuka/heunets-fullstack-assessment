@@ -11,4 +11,9 @@ export class UserSignupInputsDto {
     @IsString()
     @IsNotEmpty()
     password!: string;
+
+    @ApiProperty({ required: true, example: 'Agbo Boniface Ebuka' })
+    @IsString()
+    @IsNotEmpty()
+    full_name!: string;
 }
