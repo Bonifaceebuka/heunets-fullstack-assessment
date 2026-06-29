@@ -7,12 +7,16 @@ import { CurrentUserCtx } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/auth/entities/user.entity';
 import { CreateProjectDto } from './dtos/create-project-inputs.dto';
 import { UpdateProjectDto } from './dtos/update-project-inputs.dto';
+import { TaskService } from 'src/tasks/tasks.service';
 
 @Controller({ version: '1', path: 'projects' })
 @ApiTags('Projects')
 @ApiBearerAuth()
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) { }
+  constructor(
+    private readonly projectService: ProjectService,
+    private readonly taskService: TaskService
+  ) { }
 
   @Post('/')
   @ApiOperation({ summary: 'Create new project' })
@@ -81,6 +85,21 @@ export class ProjectController {
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
     const response = await this.projectService.updateOneProject(user,project_id, updateProjectDto)
+    return {
+      status_code: 200,
+      data: response?.data,
+      message: response?.message
+    }
+  }
+
+  @Get('/:project_id/tasks')
+  @ApiOperation({ summary: 'Fetch your created tasks under a project' })
+  @UseGuards(AccessTokenGuard)
+  async fetchTasks(
+    @CurrentUserCtx() user: User,
+    @Param('project_id') project_id: string,
+  ) {
+    const response = await this.taskService.fetchTasks(user, project_id)
     return {
       status_code: 200,
       data: response?.data,
