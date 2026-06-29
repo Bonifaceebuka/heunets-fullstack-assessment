@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "../app/NotFound";
 import Login from "../features/auth/pages/Login";
 import Signup from "../features/auth/pages/Signup";
-import ProjectBoard from "../features/projects/pages/Projects";
+import Projects from "../features/projects/pages/Projects";
 import CreateProject from "../features/projects/pages/CreateProjects";
 import AuthLayout from "../features/auth/layout/AuthLayout";
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -27,7 +27,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Route>
-          <Route path="/projects" element={<ProjectBoard />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/projects/create" element={<CreateProject />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

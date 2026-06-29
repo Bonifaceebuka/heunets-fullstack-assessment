@@ -3,40 +3,34 @@ import { Link, useNavigate } from 'react-router-dom'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signupSchema, type SignupFormData } from '../../dtos/signupSchema'
+import { signupSchema, type SignupFormData } from '../dtos/signupSchema'
 import { useQueryClient } from "@tanstack/react-query";
 import { useSignupStore } from '../store/useSignupStore';
 import { useUserSignup } from '../api/signupApi';
-import { toast } from "sonner";
 
 const Signup = () => {
   const navigate = useNavigate()
 
   const queryClient = useQueryClient();
-    const { mutate } = useUserSignup();
+  const { mutate } = useUserSignup();
 
-      const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        setValue,
-        watch,
-    } = useForm<SignupFormData>({
-        resolver: zodResolver(signupSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-            confirmPassword: "",
-        },
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-     const emailValue = watch("email");
-    const passwordValue = watch("password");
-
-    const { submitting, handleSignupUser } = useSignupStore();
-    const handleSignupFormSubmit = async (data: SignupFormData) => {
-        handleSignupUser(data, mutate, queryClient, navigate, toast);
-    };
+  const { submitting, handleSignupUser } = useSignupStore();
+  const handleSignupFormSubmit = async (signupFormData: SignupFormData) => {
+    handleSignupUser(signupFormData, mutate, queryClient, navigate);
+  };
 
   return (
     <>
@@ -46,6 +40,17 @@ const Signup = () => {
         onSubmit={handleSubmit(handleSignupFormSubmit)}
         noValidate
       >
+        <TextField
+          margin='normal'
+          required
+          fullWidth
+          id='full_name'
+          label='Full Name'
+          name='full_name'
+          {...register("full_name")}
+          error={!!errors.full_name}
+          helperText={errors.full_name?.message}
+        />
         <TextField
           margin='normal'
           required

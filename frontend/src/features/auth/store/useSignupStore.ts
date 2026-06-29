@@ -5,6 +5,7 @@ import { devtools } from "zustand/middleware";
 import type { IUser } from "../types/IUser";
 import type { ISignupUserStore } from "../types/ISignupUserStore";
 import { tokenStorage } from "../../../shared/configs/axios";
+import { toast } from "sonner";
 
 export const useSignupStore =
   create<ISignupUserStore>()(
@@ -28,7 +29,6 @@ export const useSignupStore =
         mutate,
         queryClient,
         navigate,
-        toast
       ) => {
         set({ submitting: true, errorMsg: "", successMsg: "" });
 
@@ -36,7 +36,7 @@ export const useSignupStore =
           onSuccess(response) {
             const { status_code, message, data } = response.data;
 
-            if (status_code === 200) {
+            if (status_code === 200 || status_code === 201) {
               const { token } = data as IUser;
 
               tokenStorage.setToken({ access_token: token });
@@ -49,11 +49,10 @@ export const useSignupStore =
               queryClient.setQueryData(["user"], data);
 
               setTimeout(() => {
-                toast({
-                  title: message,
-                  description: "Welcome back to Aurispectrum for staff.",
+                toast.success("Account creation successful",{
+                  description: message,
                 });
-                navigate("/dashboard");
+                navigate("/login");
               }, 1500);
             } else if (status_code === 400) {
 
@@ -63,13 +62,10 @@ export const useSignupStore =
                   errorMessages as unknown as ErrorMessages
                 )[0] || "Some required fields are still empty!"
                 : errorMessages;
-
               setTimeout(() => {
-                toast({
-                  title: firstMessage,
-                  description: "Login failed!",
-                  variant: "destructive",
-                });
+                toast.error("Account creation failed",{
+                description: firstMessage,
+              })
               }, 1500);
 
               set({ submitting: false, errorMsg: firstMessage });
@@ -79,22 +75,18 @@ export const useSignupStore =
                 errorMsg: "Something went wrong. Please try again!",
               });
               setTimeout(() => {
-                toast({
-                  title: message,
-                  description: "Login failed",
-                  variant: "destructive",
-                });
+                toast.error("Account creation failed",{
+                description: "Something went wrong. Please try again!",
+              })
               }, 1500);
+              return
             }
           },
           onError(error) {
             set({ submitting: false });
-
             setTimeout(() => {
-              toast({
-                title: error.message,
-                description: "Login failed",
-                variant: "destructive",
+              toast.error("Account creation failed",{
+                description: error.message,
               });
             }, 1500);
           },

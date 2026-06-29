@@ -2,10 +2,12 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { axios } from '../../../shared/configs/axios';
-import type { SignupFormData } from '../../dtos/signupSchema';
+import type { SignupFormData } from '../dtos/signupSchema';
 
-const UserSignup = async (data: SignupFormData) => {
-  const response = await axios.post('/auth/signup',
+const UserSignup = async (signupData: SignupFormData) => {
+  const { email, password, full_name } = signupData
+  const data = { email, password, full_name }
+  const response = await axios.post('/authentication/register',
     data,
   );
 
@@ -15,6 +17,7 @@ const UserSignup = async (data: SignupFormData) => {
 
 export const useUserSignup = () => {
   return useMutation({
-    mutationFn: UserSignup
+    mutationFn: UserSignup,
+    mutationKey: ["user"],
   });
 };
