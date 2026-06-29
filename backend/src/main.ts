@@ -9,6 +9,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === "prod" || process.env.NODE_ENV ==
 const { combine, errors, colorize, printf, timestamp } = format;
 import { hostname } from "os";
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppExceptionFilter } from './shared/exception-filters/app-exception';
 
 const transports = {
     console: new winston.transports.Console({
@@ -67,6 +68,7 @@ async function bootstrap(): Promise<void> {
       transform: true,
       forbidUnknownValues: true,
       forbidNonWhitelisted: true,
+      exceptionFactory: (errors) => errors,
     }),
   );
 
@@ -78,6 +80,7 @@ async function bootstrap(): Promise<void> {
   app.enableVersioning({
         type: VersioningType.URI
     });
+app.useGlobalFilters(new AppExceptionFilter());
 
     if (!IS_PRODUCTION) {
         const options = new DocumentBuilder()

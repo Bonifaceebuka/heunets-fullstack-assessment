@@ -4,9 +4,6 @@ import { BaseEntity } from 'src/shared/base.entity';
 
 @Schema()
 export class User extends BaseEntity {
-  @Prop({ required: true })
-  name!: string;
-
   @Prop({ required: true, unique: true })
   email!: string;
 
