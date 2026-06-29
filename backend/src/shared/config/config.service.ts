@@ -4,7 +4,7 @@ import { AppError } from "src/shared/handlers/errors/AppError";
 export enum EnvironmentKeys {
     NODE_ENV = 'NODE_ENV',
     JWT_SECRET = 'JWT_SECRET',
-    JWT_EMAIL_SECRET = 'JWT_EMAIL_SECRET',
+    APP_KEY_SECRET = 'APP_KEY_SECRET',
     PORT = 'PORT',
     MONGODB_URL = 'MONGODB_URL',
 }
@@ -24,6 +24,8 @@ export class CustomConfigService {
         return {
             NODE_ENV: this.getEnv(EnvironmentKeys.NODE_ENV),
             MONGODB_URL: this.getEnv(EnvironmentKeys.MONGODB_URL),
+            APP_KEY_SECRET: this.getEnv(EnvironmentKeys.APP_KEY_SECRET),
+            JWT_SECRET: this.getEnv(EnvironmentKeys.JWT_SECRET),
             PORT: this.getEnv(EnvironmentKeys.PORT),
         }
     }

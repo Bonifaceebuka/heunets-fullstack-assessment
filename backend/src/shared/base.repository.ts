@@ -1,5 +1,6 @@
 import {
   Document,
+  FilterQuery,
   HydratedDocument,
   Model,
   UpdateQuery,
@@ -13,7 +14,7 @@ export abstract class BaseRepository<T> {
   }
 
   async findOne(
-    conditions: Model<T>,
+    conditions: FilterQuery<T>,
   ): Promise<HydratedDocument<T> | null> {
     return this.model.findOne({
       ...conditions,
@@ -22,7 +23,7 @@ export abstract class BaseRepository<T> {
   }
 
   async findMany(
-    conditions: Model<T>,
+    conditions: FilterQuery<T>,
     orderBy = 'createdAt',
     direction: 'asc' | 'desc' = 'desc',
   ): Promise<T[]> {
@@ -37,7 +38,7 @@ export abstract class BaseRepository<T> {
   }
 
   async updateOne(
-    where: Model<T>,
+    where: FilterQuery<T>,
     updates: UpdateQuery<T>,
   ): Promise<T | null> {
     return this.model.findOneAndUpdate(where, updates, {
