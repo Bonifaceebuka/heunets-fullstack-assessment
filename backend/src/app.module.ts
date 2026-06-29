@@ -21,6 +21,7 @@ import { CustomConfigService } from './shared/config/config.service';
       },
     }),
     AuthModule,
+    ConfigModule,
     QueueModule,
   ],
 })

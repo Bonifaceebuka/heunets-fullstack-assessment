@@ -88,9 +88,6 @@ app.useGlobalFilters(new AppExceptionFilter());
             .setLicense('© Heunets', 'heunets.com/')
             .setDescription('The Heunets REST API description')
             .setVersion("0.0.1")
-            .addTag('auth')
-            .addTag('user')
-            // .addServer('https')
             .addBearerAuth()
             .build();
         const document = SwaggerModule.createDocument(app, options);

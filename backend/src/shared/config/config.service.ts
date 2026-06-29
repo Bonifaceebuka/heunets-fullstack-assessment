@@ -1,4 +1,4 @@
-import { Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { AppError } from "src/shared/handlers/errors/AppError";
 
 export enum EnvironmentKeys {
@@ -8,7 +8,7 @@ export enum EnvironmentKeys {
     PORT = 'PORT',
     MONGODB_URL = 'MONGODB_URL',
 }
-
+@Injectable()
 export class CustomConfigService {
     private getEnv(key: EnvironmentKeys): string {
         const envKey = EnvironmentKeys[key];

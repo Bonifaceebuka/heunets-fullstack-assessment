@@ -23,9 +23,20 @@ export class AuthService {
   }
 
   async registerUser(userSignupInputsDto: UserSignupInputsDto): Promise<ServiceResponseDTO> {
-    const {email, full_name, password} = userSignupInputsDto;
+    const { email, full_name, password } = userSignupInputsDto;
     const userEmail = email.toLowerCase();
+    let message;
     const hashedPassword = await this.hashString(password);
+
+    const foundUser = await this.userRepository.findOne({
+      email: userEmail
+    });
+
+    if (foundUser) {
+      message = dynamic_messages.ALREADY_EXISTS("User")
+      this.logger.error(message)
+      throw new AppError(message);
+    }
 
     const user = await this.userRepository.create({
       email: userEmail,
@@ -36,7 +47,7 @@ export class AuthService {
     this.logger.log(`User account created successfully with : ${JSON.stringify(userSignupInputsDto)}`)
     return {
       successful: true,
-      data:{
+      data: {
         id: user?._id,
         full_name: user?.full_name
       },
@@ -44,42 +55,42 @@ export class AuthService {
     };
   }
 
-   private async compareHash(
-      input: string,
-      hashed: string
+  private async compareHash(
+    input: string,
+    hashed: string
   ): Promise<boolean> {
-      if (!input || !hashed) return false;
+    if (!input || !hashed) return false;
 
-      const appKey = this.configService.getAppEnv().APP_KEY_SECRET
+    const appKey = this.configService.getAppEnv().APP_KEY_SECRET
 
-      const combinedInput = input + appKey;
+    const combinedInput = input + appKey;
 
-      return await bcrypt.compare(combinedInput, hashed);
+    return await bcrypt.compare(combinedInput, hashed);
   }
 
   private async hashString(
-      input: string,
+    input: string,
   ): Promise<string> {
-  if (!input) {
-    const message = "Input to be hashed is required";
-    this.logger.error(message)
-    throw new AppError(message)
-  }
+    if (!input) {
+      const message = "Input to be hashed is required";
+      this.logger.error(message)
+      throw new AppError(message)
+    }
 
-  const adminKey = this.configService.getAppEnv().APP_KEY_SECRET
-  const combinedInput = input + adminKey;
+    const adminKey = this.configService.getAppEnv().APP_KEY_SECRET
+    const combinedInput = input + adminKey;
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedString = await bcrypt.hash(combinedInput, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedString = await bcrypt.hash(combinedInput, salt);
 
-  return hashedString;
+    return hashedString;
   }
 
   public async getToken(jwtPayload: JwtPayload): Promise<string> {
-      const token = await this.jwtService.signAsync(jwtPayload, {
-          secret: this.configService.getAppEnv().JWT_SECRET
-      });
-      return token;
+    const token = await this.jwtService.signAsync(jwtPayload, {
+      secret: this.configService.getAppEnv().JWT_SECRET
+    });
+    return token;
   }
 
   async loginUser(userSigninInputsDto: UserSigninInputsDto): Promise<ServiceResponseDTO> {
@@ -96,23 +107,23 @@ export class AuthService {
       throw new AppError(message, 404);
     }
     const isMatch = await this.compareHash(
-        password,
-        foundUser.password
+      password,
+      foundUser.password
     );
 
     if (!isMatch) {
-        message = USER_MESSAGES.ACCOUNT.INVALID_CREDENTIALS
-        this.logger.error(message)
-        throw new AppError(message,
-          400
-        );
+      message = USER_MESSAGES.ACCOUNT.INVALID_CREDENTIALS
+      this.logger.error(message)
+      throw new AppError(message,
+        400
+      );
     }
-    const token = await this.getToken({email: foundUser.email, sub: foundUser._id.toString()});
+    const token = await this.getToken({ email: foundUser.email, sub: foundUser._id.toString() });
 
     if (!token) {
-        message = 'Error trying to complete JWT generation process';
-        this.logger.error(message)
-        throw new AppError(message);
+      message = 'Error trying to complete JWT generation process';
+      this.logger.error(message)
+      throw new AppError(message);
     }
 
     message = USER_MESSAGES.AUTH.LOGIN.LOGIN_SUCCESSFUL
@@ -121,5 +132,5 @@ export class AuthService {
       successful: true,
       message
     }
-    }
+  }
 }

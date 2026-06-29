@@ -7,12 +7,21 @@ import { User, UserSchema } from './entities/user.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { CustomConfigService } from 'src/shared/config/config.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { CustomConfigModule } from 'src/shared/config/config.module';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, UserRepository],
+  providers: [
+    AuthService, 
+    UserRepository,
+    JwtStrategy, 
+    CustomConfigService
+  ],
   exports: [AuthService],
   imports: [
+    PassportModule,
     MongooseModule.forFeature([
       {
         name: User.name,
@@ -20,6 +29,7 @@ import { CustomConfigService } from 'src/shared/config/config.service';
       },
     ]),
     JwtModule.registerAsync({
+      imports: [CustomConfigModule],
         useFactory: async (configService: CustomConfigService) => ({
             signOptions: { expiresIn: '1h' },
             secret: configService.getAppEnv().JWT_SECRET
