@@ -101,6 +101,7 @@ export class AuthService {
       email: userEmail
     });
 
+    console.log({userSigninInputsDto})
     if (!foundUser) {
       message = dynamic_messages.NOT_FOUND("User")
       this.logger.error(message)
@@ -128,7 +129,13 @@ export class AuthService {
 
     message = USER_MESSAGES.AUTH.LOGIN.LOGIN_SUCCESSFUL
     return {
-      data: foundUser,
+      data: {
+        access_token: token,
+        user: {
+          email: foundUser.email,
+          full_name: foundUser.full_name
+        }
+      },
       successful: true,
       message
     }

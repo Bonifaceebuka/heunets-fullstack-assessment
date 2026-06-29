@@ -8,14 +8,15 @@ import {
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { HttpResponseDTO } from 'src/shared/types/Ihttp.response';
+import { UserSigninInputsDto } from './dtos/signin-input.dto';
 
 @Controller({ version: '1' })
+@ApiTags('Authentication')
 export class AuthController {
     constructor(
         private authService: AuthService,
     ) {}
 
-    @ApiTags('Authentication')
     @ApiOperation({ summary: 'Register new user' })
     @Post('/register')
     async userRegiser(@Body() userSignupInputsDto: UserSignupInputsDto): Promise<HttpResponseDTO> {
@@ -27,11 +28,14 @@ export class AuthController {
         }
     }
 
-    // @ApiTags('Authentication')
-    // @ApiResponse({ type: LoginResponse })
-    // @ApiOperation({ summary: 'User login' })
-    // @Post('/login')
-    // async userLogin(@Body() loginUserInput: LoginUserInputs) {
-    //     return this.authService.generateCandidateSummary(user, dto)
-    // }
+    @ApiOperation({ summary: 'User login' })
+    @Post('/login')
+    async userLogin(@Body() userSigninInputsDto: UserSigninInputsDto) {
+       const response = await this.authService.loginUser(userSigninInputsDto)
+       return {
+            status_code: 200,
+            data: response?.data,
+            message: response?.message
+        }
+    }
 }
