@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import { HttpResponseDTO } from 'src/shared/types/Ihttp.response';
 import { UserSigninInputsDto } from './dtos/signin-input.dto';
 
-@Controller({ version: '1' })
+@Controller({ version: '1', path: 'authentication' })
 @ApiTags('Authentication')
 export class AuthController {
     constructor(

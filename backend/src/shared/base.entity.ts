@@ -2,7 +2,10 @@ import { Prop, Schema } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  },
 })
 export abstract class BaseEntity {
   _id!: Types.ObjectId;
@@ -10,9 +13,9 @@ export abstract class BaseEntity {
   @Prop({
     default: null,
   })
-  deletedAt?: Date;
+  deleted_at?: Date;
 
-  createdAt!: Date;
+  created_at!: Date;
 
-  updatedAt!: Date;
+  updated_at!: Date;
 }

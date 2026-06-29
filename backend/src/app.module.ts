@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { QueueModule } from './queue/queue.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CustomConfigService } from './shared/config/config.service';
+import { ProjectModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CustomConfigService } from './shared/config/config.service';
       },
     }),
     AuthModule,
+    ProjectModule,
     ConfigModule,
     QueueModule,
   ],
