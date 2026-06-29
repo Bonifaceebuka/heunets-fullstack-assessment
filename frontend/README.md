@@ -30,6 +30,7 @@ This  project was built and tested on a Windows 11 64-bit Operating System with 
 git clone https://github.com/Bonifaceebuka/heunets-fullstack-assessment.git
 cd heunets-fullstack-assessment/frontend
 cp .env.example .env
+Update update the environment variables to match your setup is locally
 npm install
 npm run dev
 ```

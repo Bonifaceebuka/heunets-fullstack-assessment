@@ -1,83 +1,41 @@
-# TalentFlow TypeScript Service Starter
+# 📦 Heunets's TeamBoard Backend Setup Guideline
 
-NestJS starter service for the backend assessment.
+This the Backend part of Heunets's TeamBoard.
 
-This service includes:
+---
 
-- Nest bootstrap with global validation
-- TypeORM + migration setup
-- Fake auth context (`x-user-id`, `x-workspace-id`)
-- Tiny workspace-scoped sample module
-- Queue abstraction module
-- LLM provider abstraction with a fake summarization provider
-- Jest test setup
+## 🛠️ System Requirements
+This  project was built and tested on a Windows 11 64-bit Operating System with the following specifications:
 
-The assessment-specific candidate document and summary workflow is intentionally not implemented.
+- **Node.js**: Version 20.19.5
+- **npm**: Version 10.8.2
 
-## Prerequisites
+---
 
-- Node.js 22+
-- npm
-- PostgreSQL running from repository root:
+## 🛠️ Tech Stack & Libraries Used
+
+- **Node.js**
+- **NestJS**
+- **MongoDB**
+- **Swagger UI**
+- **Dotenv**
+- **Passport JWT**
+
+---
+
+### Installation
 
 ```bash
-docker compose up -d postgres
-```
-
-## Setup
-
-```bash
-cd ts-service
-npm install
+git clone https://github.com/Bonifaceebuka/heunets-fullstack-assessment.git
+cd heunets-fullstack-assessment/backend
 cp .env.example .env
+Update update the environment variables to match your setup is locally
+npm install
+npm run dev
 ```
 
-## Environment
+---
+### Backend API Documentation
+The API documentation of the backend part of this project is done using Swagger UI and it available at `http://localhost:YOUR-PORT/swagger/api` after running the backend server.
 
-- `PORT`
-- `DATABASE_URL`
-- `NODE_ENV`
-- `GEMINI_API_KEY` (leave blank unless implementing a real provider)
-
-Do not commit API keys or secrets.
-
-Candidates may create a free Gemini API key through Google AI Studio for the full assessment implementation.
-
-## Run Migrations
-
-```bash
-cd ts-service
-npm run migration:run
-```
-
-## Run Service
-
-```bash
-cd ts-service
-npm run start:dev
-```
-
-## Run Tests
-
-```bash
-cd ts-service
-npm test
-npm run test:e2e
-```
-
-## Fake Auth Headers
-
-Sample endpoints in this starter are protected by a fake local auth guard.
-Include these headers in requests:
-
-- `x-user-id`: any non-empty string (example: `user-1`)
-- `x-workspace-id`: workspace identifier used for scoping (example: `workspace-1`)
-
-## Layout Highlights
-
-- `src/auth/`: fake auth guard, user decorator, auth types
-- `src/entities/`: starter entities
-- `src/sample/`: tiny example module (controller/service/dto)
-- `src/queue/`: in-memory queue abstraction
-- `src/llm/`: provider interface + fake provider
-- `src/migrations/`: TypeORM migration files
+---

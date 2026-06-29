@@ -2,7 +2,6 @@ import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService as AppConfigService } from '@nestjs/config';
 
 import { AuthModule } from './auth/auth.module';
-import { QueueModule } from './queue/queue.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CustomConfigService } from './shared/config/config.service';
 import { ProjectModule } from './projects/projects.module';
@@ -26,7 +25,6 @@ import { TaskModule } from './tasks/tasks.module';
     ProjectModule,
     TaskModule,
     ConfigModule,
-    QueueModule,
   ],
 })
 export class AppModule {}

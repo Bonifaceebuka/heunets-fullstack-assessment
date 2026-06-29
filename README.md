@@ -1,36 +1,63 @@
-# 📦 Heunets Fullstack Assessment API Service
+# 📦 Heunets Fullstack Assessment
 
-This the RESTful API & Websocket service that powers Heunets Fullstack Assessment app.
-
----
-
-## 🛠️ Tech Stack
-
-- **Node.js**
-- **Express.js**
-- **Postgres** with **TypeORM**
-- **Swagger UI** with **TSOA**
-- **Redis**
-- **Websocket**
-- **Dotenv**
-- **Nodemon** for development
+This the complete sourcecode of Heunets Fullstack Assessment.
 
 ---
 
-## 🧑‍💻 Getting Started
+## 🛠️ System Requirements
+This  project was built and tested on a Windows 11 64-bit Operating System with the following specifications:
 
-### Prerequisites
+- **Node.js**: Version 20.19.5
+- **npm**: Version 10.8.2
 
-- [Supabase (Postrges + Vector search + Embeddings)](https://supabase.com/docs/guides/ai)
-- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+---
 
-### Installation
+## 🛠️ Tech Stack & Libraries Used for the Frontend
+
+- **React.js**
+- **TypeScript**
+- **Vite**
+- **Zustand**
+- **Axios**
+- **Tanstack Query**
+- **Tailwind CSS**
+
+---
+
+### Frontend Installation
 
 ```bash
-git clone https://github.com/Auritechnologies/mobile.api.git
-cd mobile.api
+git clone https://github.com/Bonifaceebuka/heunets-fullstack-assessment.git
+cd heunets-fullstack-assessment/frontend
 cp .env.example .env
 npm install
-npm run migration:run
 npm run dev
 ```
+
+## 🛠️ Tech Stack & Libraries Used for the Backend
+
+- **Node.js**
+- **NestJS**
+- **MongoDB**
+- **Swagger UI**
+- **Dotenv**
+- **Passport JWT**
+
+---
+
+### Backend Installation
+
+```bash
+git clone https://github.com/Bonifaceebuka/heunets-fullstack-assessment.git
+cd heunets-fullstack-assessment/backend
+cp .env.example .env
+Update update the environment variables to match your setup is locally
+npm install
+npm run dev
+```
+
+---
+### Backend API Documentation
+The API documentation of the backend part of this project is done using Swagger UI and it available at `http://localhost:YOUR-PORT/swagger/api` after running the backend server.
+
+---
