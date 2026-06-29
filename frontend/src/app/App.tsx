@@ -4,7 +4,6 @@ import NotFound from "../app/NotFound";
 import Login from "../features/auth/pages/Login";
 import Signup from "../features/auth/pages/Signup";
 import Projects from "../features/projects/pages/Projects";
-import CreateProject from "../features/projects/pages/CreateProjects";
 import AuthLayout from "../features/auth/layout/AuthLayout";
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseLine from '@mui/material/CssBaseline'
@@ -28,7 +27,6 @@ function App() {
             <Route path='/signup' element={<Signup />} />
           </Route>
           <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/create" element={<CreateProject />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

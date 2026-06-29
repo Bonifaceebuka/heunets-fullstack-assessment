@@ -1,26 +1,16 @@
 import { Link } from "react-router-dom";
 import "../styles/Project.css";
-
-const projects = [
-  {
-    id: 1,
-    name: "Website Redesign",
-    description: "Revamp company website UI",
-    members: 8,
-    tasks: 24,
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "Mobile App",
-    description: "Customer mobile experience",
-    members: 5,
-    tasks: 16,
-    status: "Completed",
-  },
-];
+import { useGetProjects } from "../apis/get-projects";
 
 export default function Projects() {
+    const {
+    data: projects,
+    isLoading,
+    isError,
+  } = useGetProjects();
+
+  console.log(projects)
+
   return (
     <main className="projects-page">
 
@@ -44,9 +34,6 @@ export default function Projects() {
             <tr>
               <th>Project</th>
               <th>Description</th>
-              <th>Members</th>
-              <th>Tasks</th>
-              <th>Status</th>
               <th></th>
             </tr>
           </thead>
@@ -54,7 +41,7 @@ export default function Projects() {
 
           <tbody>
 
-            {projects.map((project) => (
+            {projects?.data?.map((project) => (
 
               <tr key={project.id}>
 
@@ -64,20 +51,6 @@ export default function Projects() {
 
                 <td data-label="Description">
                   {project.description}
-                </td>
-
-                <td data-label="Members">
-                  {project.members}
-                </td>
-
-                <td data-label="Tasks">
-                  {project.tasks}
-                </td>
-
-                <td data-label="Status">
-                  <span className="status">
-                    {project.status}
-                  </span>
                 </td>
 
                 <td>
