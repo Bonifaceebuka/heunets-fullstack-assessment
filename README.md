@@ -60,6 +60,8 @@ npm run dev
 ### Backend API Documentation
 The API documentation of the backend part of this project is done using Swagger UI and it available at `http://localhost:YOUR-PORT/swagger/api` after running the backend server.
 
+The API documentation is live on Render: `https://heunets-fullstack-assessment.onrender.com/swagger/api`
+
 ---
 
 ### Architectural Overview of the system

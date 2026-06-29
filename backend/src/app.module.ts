@@ -6,8 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CustomConfigService } from './shared/config/config.service';
 import { ProjectModule } from './projects/projects.module';
 import { TaskModule } from './tasks/tasks.module';
+import { AppController } from './app.controller';
 
 @Module({
+  controllers: [AppController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
      MongooseModule.forRootAsync({
