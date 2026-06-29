@@ -47,6 +47,7 @@ const Signup = () => {
           id='full_name'
           label='Full Name'
           name='full_name'
+          disabled={submitting}
           {...register("full_name")}
           error={!!errors.full_name}
           helperText={errors.full_name?.message}
@@ -60,6 +61,7 @@ const Signup = () => {
           name='email'
           type='email'
           {...register("email")}
+          disabled={submitting}
           error={!!errors.email}
           helperText={errors.email?.message}
         />
@@ -72,6 +74,7 @@ const Signup = () => {
           name='password'
           type='password'
           {...register("password")}
+          disabled={submitting}
           error={!!errors.password}
           helperText={errors.password?.message}
         />
@@ -84,6 +87,7 @@ const Signup = () => {
           name='confirmPassword'
           type='password'
           {...register("confirmPassword")}
+          disabled={submitting}
           error={!!errors.confirmPassword}
           helperText={errors.confirmPassword?.message}
         />

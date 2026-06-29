@@ -1,69 +1,41 @@
 import { Box, Button, TextField } from '@mui/material'
-import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import LoadingButton from '@mui/lab/LoadingButton'
-// import authApi from '../api/authApi'
+import { loginSchema, type LoginFormData } from '../dtos/loginSchema'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useUserSignin } from '../api/signinApi'
+import { useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { useSigninStore } from '../store/useSigninStore';
+
 
 const Login = () => {
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const [usernameErrText, setUsernameErrText] = useState('')
-  const [passwordErrText, setPasswordErrText] = useState('')
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setUsernameErrText('')
-    setPasswordErrText('')
-
-    const data = new FormData(e.target)
-    // const username = data.get('username').trim()
-    // const password = data.get('password').trim()
-
-    // let err = false
-
-    // if (username === '') {
-    //   err = true
-    //   setUsernameErrText('Please fill this field')
-    // }
-    // if (password === '') {
-    //   err = true
-    //   setPasswordErrText('Please fill this field')
-    // }
-
-    // if (err) return
-
-    // setLoading(true)
-
-    // try {
-    //   const res = await authApi.login({ username, password })
-    //   setLoading(false)
-    //   localStorage.setItem('token', res.token);
-    //   navigate('/')
-    // } catch (err) {
-    //   const errors = err.data.errors
-    //   console.log(errors);
-    //   errors.forEach(e => {
-    //     if (e.param === 'username') {
-    //       setUsernameErrText(e.msg)
-    //     }
-    //     if (e.param === 'password') {
-    //       setPasswordErrText(e.msg)
-    //     }
-
-    //     if(e.path==='password'){
-    //       setPasswordErrText(e.msg);
-    //     }
-    //   })
-    //   setLoading(false)
-    // }
-  }
-
+  const { mutate } = useUserSignin();
+      const queryClient = useQueryClient();
+      const navigate = useNavigate()
+  
+      const {
+          register,
+          handleSubmit,
+          formState: { errors },
+      } = useForm<LoginFormData>({
+          resolver: zodResolver(loginSchema),
+          defaultValues: {
+              email: "",
+              password: "",
+          },
+      });
+  
+      const { submitting, handleSigninUser } = useSigninStore();
+      const handleLogin = async (data: LoginFormData) => {
+          handleSigninUser(data, mutate, queryClient,navigate);
+      };
   return (
     <>
       <Box
         component='form'
         sx={{ mt: 1 }}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(handleLogin)}
         noValidate
       >
         <TextField
@@ -73,9 +45,10 @@ const Login = () => {
           id='username'
           label='Username'
           name='username'
-          disabled={loading}
-          error={usernameErrText !== ''}
-          helperText={usernameErrText}
+          disabled={submitting}
+          error={errors.email !== undefined}
+          helperText={errors.email?.message}
+          {...register("email")}
         />
         <TextField
           margin='normal'
@@ -85,9 +58,10 @@ const Login = () => {
           label='Password'
           name='password'
           type='password'
-          disabled={loading}
-          error={passwordErrText !== ''}
-          helperText={passwordErrText}
+          disabled={submitting}
+          error={errors.password !== undefined}
+          helperText={errors.password?.message}
+          {...register("password")}
         />
         <LoadingButton
           sx={{ mt: 3, mb: 2 }}
@@ -95,7 +69,7 @@ const Login = () => {
           fullWidth
           color='success'
           type='submit'
-          loading={loading}
+          disabled={submitting}
         >
           Login
         </LoadingButton>
