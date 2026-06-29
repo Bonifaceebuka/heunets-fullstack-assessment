@@ -1,17 +1,10 @@
 import { Container, Box } from '@mui/material'
-import { useState } from 'react'
 import {Outlet} from "react-router-dom";
-import Loading from '../../../shared/common/Loading';
 
 
 const AuthLayout = ()=>{
-  const [loading] = useState(true);
-
   return (
-    loading ? (
-      <Loading fullHeight />
-    ) : (
-      <Container component='main' maxWidth='xs'>
+    <Container component='main' maxWidth='xs'>
         <Box sx={{
           marginTop: 8,
           display: 'flex',
@@ -22,7 +15,6 @@ const AuthLayout = ()=>{
           <Outlet />
         </Box>
       </Container>
-    )
   )
 }
 
