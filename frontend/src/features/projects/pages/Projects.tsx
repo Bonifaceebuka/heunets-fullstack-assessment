@@ -13,6 +13,7 @@ export default function Projects() {
   const navigate = useNavigate()
 
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const handleCreateProjectModalOpen = () => setCreateProjectModalOpen(true);
   const handleCreateProjectModalClose = () => setCreateProjectModalOpen(false);
 
@@ -77,6 +78,8 @@ export default function Projects() {
                     color="warning"
                     onClick={(e) => {
                       e.preventDefault();
+                      setSelectedProject(null);
+                      setSelectedProject(project);
                       handleEditProjectModalOpen()
                     }}
                   >
@@ -106,7 +109,11 @@ export default function Projects() {
 
       </div>
       <CreateProjectModal createProjectModalOpen={createProjectModalOpen} handleCreateProjectModalClose={handleCreateProjectModalClose} />
-      <EditProjectModal editProjectModalOpen={editProjectModalOpen} handleEditProjectModalClose={handleEditProjectModalClose} />
+      <EditProjectModal
+        editProjectModalOpen={editProjectModalOpen}
+        handleEditProjectModalClose={handleEditProjectModalClose}
+        selectedProject={selectedProject}
+      />
     </main>
   );
 }

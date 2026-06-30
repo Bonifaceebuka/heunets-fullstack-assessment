@@ -76,12 +76,12 @@ export class ProjectController {
     }
   }
 
-   @Put('/:project_id')
+  @Put('/:project_id')
   @ApiOperation({ summary: 'Update one project' })
   @UseGuards(AccessTokenGuard)
   async updateOneProject(
     @CurrentUserCtx() user: User,
-    @Param() project_id: string,
+    @Param("project_id") project_id: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
     const response = await this.projectService.updateOneProject(user,project_id, updateProjectDto)

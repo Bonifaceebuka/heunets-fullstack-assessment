@@ -130,6 +130,9 @@ export class ProjectService {
       throw new AppError(message)
     }
 
+    console.log({updateProjectDto})
+    console.log({submittedFields})
+    console.log({project_id})
     await this.projectRepository.updateOne({
       user: user?._id,
       _id: projectId
