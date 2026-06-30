@@ -41,7 +41,7 @@ export default function CreateTaskModal({
       description: "",
       assigned_to: "",
       status: "todo",
-      project_id: projectId,
+      project_id: projectId || "",
       priority: "medium",
       start_date: undefined,
       end_date: undefined
@@ -52,7 +52,7 @@ export default function CreateTaskModal({
   const handleCreateTaskFormSubmit = async (createTaskData: CreateTaskFormData) => {
     const data = {
       ...createTaskData,
-      project_id: projectId
+      project_id: projectId || ""
     }
     handleCreateTask(data, mutate, queryClient, handleCreateTaskModalClose);
   };

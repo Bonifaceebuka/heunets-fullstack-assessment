@@ -26,7 +26,7 @@ export default function EditTaskModal({
 }: {
   editTaskModalOpen: boolean,
   handleEditTaskModalClose: () => void,
-  selectedTask: ITask
+  selectedTask: ITask | null
 }) {
   const queryClient = useQueryClient();
   const { mutate } = useUpdateTask();
@@ -54,11 +54,9 @@ export default function EditTaskModal({
   const { submitting, handleUpdateTask } = useUpdateTaskStore();
   const handleUpdateTaskFormSubmit = async (updateTaskSchema: UpdateTaskFormData) => {
     const data = {
-      _id: selectedTask._id,
-      ...updateTaskSchema
+      ...updateTaskSchema,
+      _id: selectedTask?._id as string
     }
-    console.log({ data })
-
     handleUpdateTask(data, mutate, queryClient, handleEditTaskModalClose);
   };
 

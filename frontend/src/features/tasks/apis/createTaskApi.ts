@@ -5,10 +5,9 @@ import { setAuthToken } from "../../auth/utils";
 
 const createTask = async (taskData: CreateTaskFormData) => {
   setAuthToken();
-  const projectId = taskData.project_id;
-  delete taskData.project_id;
-  const response = await axios.post(`/tasks/${projectId}/create`,
-    taskData,
+   const { project_id, ...payload } = taskData;
+  const response = await axios.post(`/tasks/${project_id}/create`,
+    payload,
   );
 
   return response;

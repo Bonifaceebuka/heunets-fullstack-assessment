@@ -29,7 +29,7 @@ export const useCreateProjectStore =
 
         mutate(formData, {
           onSuccess(response) {
-            const { status_code, message, data } = response.data;
+            const { status_code, message } = response.data;
 
             if (status_code === 200 || status_code === 201) {
               set({

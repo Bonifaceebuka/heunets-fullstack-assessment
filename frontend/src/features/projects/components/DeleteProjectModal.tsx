@@ -23,7 +23,7 @@ export default function DeleteProjectModal({
 }) {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteProject();
-  const { submitting, handleDeleteProject } = useDeleteProjectStore();
+  const { handleDeleteProject } = useDeleteProjectStore();
 
   const deleteProject = async (project_id: string) => {
     handleDeleteProject(project_id, mutate, queryClient);

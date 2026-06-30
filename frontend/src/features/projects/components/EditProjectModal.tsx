@@ -24,8 +24,9 @@ export default function EditProjectModal({
 }: {
   editProjectModalOpen: boolean,
   handleEditProjectModalClose: () => void,
-  selectedProject: IProject
+  selectedProject: IProject | null
 }) {
+  if(!selectedProject) return;
   const queryClient = useQueryClient();
   const { mutate } = useUpdateProject();
 

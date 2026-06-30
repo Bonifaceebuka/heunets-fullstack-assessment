@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/Project.css";
 import { useState } from "react";
 import CreateTaskModal from "../components/CreateTaskModal";
@@ -17,12 +17,12 @@ import {
   Button,
 } from "@mui/material";
 import EditTaskModal from "../components/EditTaskModal";
-import DeleteTaskModal from "../components/DeleteProjectModal";
+import DeleteTaskModal from "../components/DeleteTaskModal";
 
 export default function Tasks() {
   const params = useParams();
   const navigate = useNavigate()
-  const projectId = params.projectId;
+  const projectId = params?.projectId || "";
   const { data: tasks, isLoading } = useGetTasks(projectId);
 
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
@@ -125,16 +125,19 @@ export default function Tasks() {
       </div>
       <CreateTaskModal
         createTaskModalOpen={createTaskModalOpen}
-        projectId={projectId}
+        projectId={projectId || ""}
         handleCreateTaskModalClose={handleCreateTaskModalClose}
       />
        <DeleteTaskModal
               deleteDialogOpen={deleteDialogOpen}
               setDeleteDialogOpen={setDeleteDialogOpen}
-              selectedTask={selectedTask}
+              selectedTask={selectedTask || null}
               setSelectedTask={setSelectedTask}
             />
-      <EditTaskModal editTaskModalOpen={editTaskModalOpen} handleEditTaskModalClose={handleEditTaskModalClose} selectedTask={selectedTask} />
+      <EditTaskModal 
+        editTaskModalOpen={editTaskModalOpen} 
+        handleEditTaskModalClose={handleEditTaskModalClose} 
+        selectedTask={selectedTask || null} />
     </main>
   );
 }

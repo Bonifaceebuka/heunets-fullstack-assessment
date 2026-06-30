@@ -23,7 +23,7 @@ export default function DeleteTaskModal({
 }) {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteTask();
-  const { submitting, handleDeleteTask } = useDeleteTaskStore();
+  const { handleDeleteTask } = useDeleteTaskStore();
 
   const deleteTask = async (task_id: string) => {
     handleDeleteTask(task_id, mutate, queryClient);

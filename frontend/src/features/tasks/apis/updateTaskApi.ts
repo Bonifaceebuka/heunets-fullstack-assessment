@@ -4,9 +4,9 @@ import type { UpdateTaskFormData } from '../dtos/updateTaskSchema';
 
 const updateTask = async (taskData: UpdateTaskFormData) => {
   const taskId = taskData._id;
-  delete taskData._id;
+  const { _id, ...payload } = taskData;
   const response = await axios.put(`/tasks/${taskId}`,
-    taskData,
+    payload,
   );
 
   return response;
