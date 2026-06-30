@@ -2,15 +2,15 @@ import { setAuthToken } from "../../auth/utils";
 import { axios } from '../../../shared/configs/axios';
 import { useMutation } from '@tanstack/react-query';
 
-const deleteProject = async (project_id: string) => {
+const deleteTask = async (task_id: string) => {
   setAuthToken();
-  const response = await axios.delete(`/projects/${project_id}`);
+  const response = await axios.delete(`/tasks/${task_id}`);
   return response;
 };
 
-export const useDeleteProject = () => {
+export const useDeleteTask = () => {
     return useMutation({
-        mutationFn: deleteProject,
-        mutationKey: ["deleteProject"]
+        mutationFn: deleteTask,
+        mutationKey: ["deleteTask"]
     });
 };

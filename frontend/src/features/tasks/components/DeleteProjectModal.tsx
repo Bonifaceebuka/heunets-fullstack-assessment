@@ -7,30 +7,30 @@ import {
     Button,
 } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDeleteProject } from "../apis/deleteProjectApi";
-import { useDeleteProjectStore } from "../stores/useDeleteProjectStore";
+import { useDeleteTask } from "../apis/deleteTaskApi";
+import { useDeleteTaskStore } from "../stores/useDeleteTaskStore";
 
-export default function DeleteProjectModal({
+export default function DeleteTaskModal({
     deleteDialogOpen,
     setDeleteDialogOpen,
-    setSelectedProject,
-    selectedProject
+    setSelectedTask,
+    selectedTask
 }: {
     deleteDialogOpen: boolean;
     setDeleteDialogOpen: (deleteDialogOpen: boolean) => void;
-    setSelectedProject: (project: any) => void;
-    selectedProject: any;
+    setSelectedTask: (task: any) => void;
+    selectedTask: any;
 }) {
   const queryClient = useQueryClient();
-  const { mutate } = useDeleteProject();
-  const { submitting, handleDeleteProject } = useDeleteProjectStore();
+  const { mutate } = useDeleteTask();
+  const { submitting, handleDeleteTask } = useDeleteTaskStore();
 
-  const deleteProject = async (project_id: string) => {
-    handleDeleteProject(project_id, mutate, queryClient);
+  const deleteTask = async (task_id: string) => {
+    handleDeleteTask(task_id, mutate, queryClient);
   };
   const handleDeleteDialogClose = () => {
     setDeleteDialogOpen(false);
-    setSelectedProject(null);
+    setSelectedTask(null);
     };
 
     return (
@@ -38,12 +38,12 @@ export default function DeleteProjectModal({
             open={deleteDialogOpen}
             onClose={handleDeleteDialogClose}
         >
-            <DialogTitle>Delete Project</DialogTitle>
+            <DialogTitle>Delete Task</DialogTitle>
 
             <DialogContent>
                 <DialogContentText>
                     Are you sure you want to delete{" "}
-                    <strong>{selectedProject?.name}</strong>?
+                    <strong>{selectedTask?.title}</strong>?
                     <br />
                     <br />
                     This action cannot be undone.
@@ -59,7 +59,7 @@ export default function DeleteProjectModal({
                     color="error"
                     variant="contained"
                     onClick={async () => {
-                        await deleteProject(selectedProject._id);
+                        await deleteTask(selectedTask._id);
                         handleDeleteDialogClose();
                     }}
                 >

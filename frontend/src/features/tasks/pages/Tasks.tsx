@@ -17,6 +17,7 @@ import {
   Button,
 } from "@mui/material";
 import EditTaskModal from "../components/EditTaskModal";
+import DeleteTaskModal from "../components/DeleteProjectModal";
 
 export default function Tasks() {
   const params = useParams();
@@ -32,6 +33,12 @@ export default function Tasks() {
   const handleEditTaskModalOpen = () => setEditTaskModalOpen(true);
   const handleEditTaskModalClose = () => setEditTaskModalOpen(false);
   const [selectedTask, setSelectedTask] = useState(null);
+   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleDeleteDialogOpen = (task: any) => {
+        setSelectedTask(task);
+        setDeleteDialogOpen(true);
+    };
 
   return (
     <main className="projects-page">
@@ -103,7 +110,7 @@ export default function Tasks() {
                         color="error"
                         onClick={(e) => {
                           e.preventDefault();
-                        // handleDeleteDialogOpen(project)
+                        handleDeleteDialogOpen(task)
                         }}
                       >
                         Delete
@@ -121,6 +128,12 @@ export default function Tasks() {
         projectId={projectId}
         handleCreateTaskModalClose={handleCreateTaskModalClose}
       />
+       <DeleteTaskModal
+              deleteDialogOpen={deleteDialogOpen}
+              setDeleteDialogOpen={setDeleteDialogOpen}
+              selectedTask={selectedTask}
+              setSelectedTask={setSelectedTask}
+            />
       <EditTaskModal editTaskModalOpen={editTaskModalOpen} handleEditTaskModalClose={handleEditTaskModalClose} selectedTask={selectedTask} />
     </main>
   );
