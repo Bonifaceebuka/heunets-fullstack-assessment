@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom";
-import "../styles/Project.css";
-import { useGetProjects } from "../apis/get-projects";
+import { useNavigate } from "react-router-dom";
+import { useGetProjects } from "../apis/getProjectsApi";
 
 import { useState } from "react";
 import CreateProjectModal from "../components/CreateProjectModal";
 import EditProjectModal from "../components/EditProjectModal";
+import { Button } from "@mui/material";
 
 export default function Projects() {
   const {
     data: projects,
   } = useGetProjects();
+  const navigate = useNavigate()
 
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState(false);
   const handleCreateProjectModalOpen = () => setCreateProjectModalOpen(true);
@@ -28,9 +29,9 @@ export default function Projects() {
           <p>Manage your team's projects</p>
         </div>
 
-        <button className="primary-btn" onClick={handleCreateProjectModalOpen}>
+        <Button variant="outlined" onClick={handleCreateProjectModalOpen}>
           + New Project
-        </button>
+        </Button>
       </header>
 
 
@@ -62,36 +63,37 @@ export default function Projects() {
                   {project.description}
                 </td>
                 <td>
-                  <Link
-                    to={`/projects/${project._id}/tasks`}
-                    className="view-btn"
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate(`/projects/${project._id}/tasks`)}
                   >
                     View
-                  </Link>
+                  </Button>
                 </td>
                 <td>
-                  <Link
-                    to={`#`}
-                    className="view-btn"
+                  <Button
+                    variant="outlined"
+                    color="warning"
                     onClick={(e) => {
                       e.preventDefault();
                       handleEditProjectModalOpen()
                     }}
                   >
                     Edit
-                  </Link>
+                  </Button>
                 </td>
                 <td>
-                  <Link
-                    to={`#`}
-                    className="view-btn"
+                  <Button
+                    variant="outlined"
+                    color="error"
                     onClick={(e) => {
                       e.preventDefault();
                       handleEditProjectModalOpen()
                     }}
                   >
                     Delete
-                  </Link>
+                  </Button>
                 </td>
 
               </tr>

@@ -1,21 +1,19 @@
 import type { FormState } from "../../../shared/types/IFormState";
-import type { SignupFormData } from "../dtos/signupSchema";
-import type { IUser } from "./IUser";
+import type { ProjectFormData } from "../dtos/projectSchema";
 import type { QueryClient, UseMutateFunction } from "@tanstack/react-query";
 import type { IApiResponse } from "../../../shared/types/IApiResponse";
 
-export interface ISignupUserStore extends FormState {
-  user: IUser | null;
+export interface IProjectStore extends FormState {
   reset: () => void;
-  handleSignupUser: (
-    formData: SignupFormData,
+  handleCreateProject: (
+    formData: ProjectFormData,
     mutate: UseMutateFunction<
-      { data: IApiResponse<IUser> },
+      { data: IApiResponse<any> },
       Error,
-      SignupFormData,
+      ProjectFormData,
       unknown
     >,
     queryClient: QueryClient,
-    navigate: (path: string) => void,
+    handleCreateProjectModalClose: () => void
   ) => void;
 }

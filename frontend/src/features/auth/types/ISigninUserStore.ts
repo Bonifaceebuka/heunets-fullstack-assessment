@@ -17,6 +17,5 @@ export interface ISigninUserStore extends FormState {
     >,
     queryClient: QueryClient,
     navigate: (path: string) => void,
-    // toast: any
   ) => void;
 }

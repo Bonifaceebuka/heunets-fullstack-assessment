@@ -10,7 +10,7 @@ export const getProjects = async () => {
 
 export const useGetProjects = () => {
   return useQuery({
-    queryKey: ["getProjects"],
+    queryKey: ["projects"],
     queryFn: () => getProjects(),
   });
 };

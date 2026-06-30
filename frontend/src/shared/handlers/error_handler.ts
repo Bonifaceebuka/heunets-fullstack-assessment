@@ -6,6 +6,17 @@ export interface ErrorMessages {
     [field: string]: ValidationError;
 }
 
+export interface BackendErrorMessages {
+    [field: string]: string[];
+}
+
+interface ApiErrorResponse {
+    data: {
+        field: string;
+        errors: string[];
+    }[];
+}
+
 export function formatValidationMessage(errorMessages: ErrorMessages): string[] {
     const messages: string[] = [];
     for (const key in errorMessages) {
@@ -25,6 +36,35 @@ export function formatValidationMessage(errorMessages: ErrorMessages): string[] 
             }
         }
     }
-    // console.log('errorMessages',errorMessages)
     return messages;
+}
+
+export function formatBackendErrors(errorMessages: ErrorMessages | BackendErrorMessages | ApiErrorResponse | string): string[] {
+    // Handle string errors
+    if (typeof errorMessages === 'string') {
+        return [errorMessages];
+    }
+
+    // Handle null/undefined
+    if (!errorMessages || typeof errorMessages !== 'object') {
+        return ['An error occurred'];
+    }
+
+    // Handle error messages from Class-validator:
+    // {
+    //   data: [
+    //     {
+    //       field: "field_name",
+    //       errors: ["Error message"]
+    //     }
+    //   ]
+    // }
+    if (Array.isArray(errorMessages.data)) {
+        return errorMessages.data.flatMap(
+            (item: { errors?: string[] }) => item.errors || []
+        );
+    }
+
+    // Assume it's the original nested format
+    return formatValidationMessage(errorMessages as ErrorMessages);
 }
