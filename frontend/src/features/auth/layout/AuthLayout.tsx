@@ -13,7 +13,8 @@ const AuthLayout = ()=>{
       const tokenDetail = tokenStorage.getToken();
       const isAuthenticated = tokenDetail?.isAuthenticated;
       const token = tokenDetail?.token;
-
+      console.log({isAuthenticated})
+      console.log({isTokenExpired: isTokenExpired(token)})
       // Check if token is expired
       if (!isAuthenticated || isTokenExpired(token)) {
         tokenStorage.clearToken();
