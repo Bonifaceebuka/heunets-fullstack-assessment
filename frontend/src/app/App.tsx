@@ -8,6 +8,7 @@ import AuthLayout from "../features/auth/layout/AuthLayout";
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseLine from '@mui/material/CssBaseline'
 import { Toaster } from "sonner";
+import Tasks from "../features/tasks/pages/Tasks";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ function App() {
             <Route path='/signup' element={<Signup />} />
           </Route>
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:projectId/tasks" element={<Tasks />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
