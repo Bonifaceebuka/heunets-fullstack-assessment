@@ -4,9 +4,19 @@ import { useGetProjects } from "../apis/getProjectsApi";
 import { useState } from "react";
 import CreateProjectModal from "../components/CreateProjectModal";
 import EditProjectModal from "../components/EditProjectModal";
-import { Button } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+} from "@mui/material";
 import DeletePorjectModal from "../components/DeleteProjectModal";
 import { tokenStorage } from "../../../shared/configs/axios";
+import NoProjectsCard from "../components/NoProjectsFound";
 
 export default function Projects() {
   const {
@@ -58,42 +68,36 @@ export default function Projects() {
 
       <div className="project-table-wrapper">
 
-        <table className="project-table">
-
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            {projects?.data?.map((project: any) => (
-
-              <tr key={project.id}>
-
-                <td data-label="Project">
-                  <strong>{project.name}</strong>
-                </td>
-
-                <td data-label="Description">
-                  {project.description}
-                </td>
-                <td>
-                  <Button
+{
+  projects?.data?.length === 0 ? (
+    <NoProjectsCard onCreateProject={handleCreateProjectModalOpen} />
+  ) : (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {projects?.data?.map((project: any) => (
+            <TableRow key={project.id}>
+              <TableCell>{project.name}</TableCell>
+              <TableCell>{project.description}</TableCell>
+              <TableCell>
+                <Button
                     variant="outlined"
                     color="primary"
                     onClick={() => navigate(`/projects/${project._id}/tasks`)}
                   >
                     View
                   </Button>
-                </td>
-                <td>
-                  <Button
+              </TableCell>
+              <TableCell>
+
+                <Button
                     variant="outlined"
                     color="warning"
                     onClick={(e) => {
@@ -105,9 +109,10 @@ export default function Projects() {
                   >
                     Edit
                   </Button>
-                </td>
-                <td>
-                  <Button
+              </TableCell>
+
+              <TableCell>
+                <Button
                     variant="outlined"
                     color="error"
                     onClick={(e) => {
@@ -117,15 +122,15 @@ export default function Projects() {
                   >
                     Delete
                   </Button>
-                </td>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
+}
 
-              </tr>
-
-            ))}
-
-          </tbody>
-
-        </table>
 
       </div>
       <CreateProjectModal createProjectModalOpen={createProjectModalOpen} handleCreateProjectModalClose={handleCreateProjectModalClose} />
