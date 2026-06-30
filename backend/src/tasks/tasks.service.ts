@@ -98,7 +98,12 @@ export class TaskService {
   
       return {
         successful: true,
-        data: tasks,
+        data: {
+          tasks,
+          project_name: project?.name,
+          project_id: project?._id,
+          project_description: project?.description
+        },
         message: "Your tasks were fetched successfully!"
       };
     }
