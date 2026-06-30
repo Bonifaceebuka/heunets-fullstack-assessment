@@ -6,6 +6,7 @@ import CreateProjectModal from "../components/CreateProjectModal";
 import EditProjectModal from "../components/EditProjectModal";
 import { Button } from "@mui/material";
 import DeletePorjectModal from "../components/DeleteProjectModal";
+import { tokenStorage } from "../../../shared/configs/axios";
 
 export default function Projects() {
   const {
@@ -28,11 +29,23 @@ export default function Projects() {
         setDeleteDialogOpen(true);
     };
 
+    const handleLogout = () => {
+      tokenStorage.clearToken();
+      navigate("/login");
+    };
+
   return (
     <main className="projects-page">
 
       <header className="projects-header">
         <div>
+          <Button
+            type="button"
+            className="back-btn"
+            onClick={() => handleLogout()}
+          >
+            ← Logout
+          </Button>
           <h1>Projects</h1>
           <p>Manage your team's projects</p>
         </div>

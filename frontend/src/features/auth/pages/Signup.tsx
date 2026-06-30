@@ -87,7 +87,7 @@ const Signup = () => {
           sx={{ mt: 3, mb: 2 }}
           variant='outlined'
           fullWidth
-          color='success'
+          color='primary'
           type='submit'
           loading={submitting}
         >
@@ -97,7 +97,7 @@ const Signup = () => {
       <Button
         component={Link}
         to='/login'
-        sx={{ textTransform: 'none' }}
+        variant='outlined'
       >
         Already have an account? Login
       </Button>

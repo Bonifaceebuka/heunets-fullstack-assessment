@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import EditTaskModal from "../components/EditTaskModal";
 import DeleteTaskModal from "../components/DeleteTaskModal";
+import { tokenStorage } from "../../../shared/configs/axios";
 
 export default function Tasks() {
   const params = useParams();
@@ -40,6 +41,10 @@ export default function Tasks() {
         setDeleteDialogOpen(true);
     };
 
+    const handleLogout = () => {
+          tokenStorage.clearToken();
+          navigate("/login");
+        };
   return (
     <main className="projects-page">
 
@@ -48,9 +53,9 @@ export default function Tasks() {
           <Button
             type="button"
             className="back-btn"
-            onClick={() => navigate(-1)}
+            onClick={() => handleLogout()}
           >
-            ← Back
+            ← Logout
           </Button>
           <h1>Manage {tasks?.data?.project_name}'s tasks</h1>
           <p>Manage your team's tasks</p>

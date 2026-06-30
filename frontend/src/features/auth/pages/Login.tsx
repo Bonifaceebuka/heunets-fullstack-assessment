@@ -63,7 +63,7 @@ const Login = () => {
           sx={{ mt: 3, mb: 2 }}
           variant='outlined'
           fullWidth
-          color='success'
+          color='primary'
           type='submit'
           disabled={submitting}
         >
@@ -73,7 +73,7 @@ const Login = () => {
       <Button
         component={Link}
         to='/signup'
-        sx={{ textTransform: 'none' }}
+        variant='outlined'
       >
         Don't have an account? Signup
       </Button>
