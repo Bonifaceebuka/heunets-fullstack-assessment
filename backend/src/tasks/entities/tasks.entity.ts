@@ -12,7 +12,7 @@ export class Task extends BaseEntity {
   @Prop({ required: true })
   description!: string;
 
-  @Prop({ enum: ['pending', 'completed'], default: 'pending' })
+  @Prop({ enum: ['todo', 'in_progress', 'completed'], default: 'todo' })
   status!: string;
 
   @Prop({ enum: ['low', 'medium', 'high'], default: 'medium' })

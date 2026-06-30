@@ -5,7 +5,7 @@ import { useState } from "react";
 import CreateProjectModal from "../components/CreateProjectModal";
 import EditProjectModal from "../components/EditProjectModal";
 import { Button } from "@mui/material";
-import DeletePorjectModal from "../components/DeletePorjectModal";
+import DeletePorjectModal from "../components/DeleteProjectModal";
 
 export default function Projects() {
   const {

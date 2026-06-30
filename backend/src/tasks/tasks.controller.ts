@@ -35,7 +35,7 @@ export class TaskController {
   @UseGuards(AccessTokenGuard)
   async fetchOneTask(
     @CurrentUserCtx() user: User,
-    @Param() task_id: string
+    @Param("task_id") task_id: string
   ) {
     const response = await this.taskService.fetchOneTask(user,task_id)
     return {
@@ -50,7 +50,7 @@ export class TaskController {
   @UseGuards(AccessTokenGuard)
   async deleteOneTask(
     @CurrentUserCtx() user: User,
-    @Param() task_id: string
+    @Param("task_id") task_id: string
   ) {
     const response = await this.taskService.deleteOneTask(user,task_id)
     return {
@@ -65,7 +65,7 @@ export class TaskController {
   @UseGuards(AccessTokenGuard)
   async updateOneTask(
     @CurrentUserCtx() user: User,
-    @Param() task_id: string,
+    @Param("task_id") task_id: string,
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
     const response = await this.taskService.updateOneTask(user,task_id, updateTaskDto)

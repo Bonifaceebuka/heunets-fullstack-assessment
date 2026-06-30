@@ -1,12 +1,13 @@
-import { formatBackendErrors } from "../../../shared/handlers/error_handler";
+import { formatBackendErrors, formatValidationMessage } from "../../../shared/handlers/error_handler";
+import type { ErrorMessages } from "../../../shared/handlers/error_handler";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { ICreateProjectStore } from "../types/ICreateProjectStore";
+import type { ICreateTaskStore } from "../types/ICreateTaskStore";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 
-export const useCreateProjectStore =
-  create<ICreateProjectStore>()(
+export const useCreateTaskStore =
+  create<ICreateTaskStore>()(
     devtools((set) => ({
       submitting: false,
       successMsg: "",
@@ -19,11 +20,11 @@ export const useCreateProjectStore =
           errorMsg: "",
         }),
 
-      handleCreateProject: async (
+      handleCreateTask: async (
         formData,
         mutate,
         queryClient,
-        handleCreateProjectModalClose
+        handleCreateTaskModalClose
       ) => {
         set({ submitting: true, errorMsg: "", successMsg: "" });
 
@@ -37,20 +38,20 @@ export const useCreateProjectStore =
                 successMsg: message,
               });
               queryClient.invalidateQueries({
-                queryKey: ["projects"],
+                queryKey: ["tasks"],
               });
 
-              toast.success("Project creation successful", {
+              toast.success("Task creation successful", {
                 description: message,
               });
 
-              handleCreateProjectModalClose()
+              handleCreateTaskModalClose()
             } else if (status_code >= 400 && status_code < 500) {
               const errorMessages = message;
               const allErrors = formatBackendErrors(errorMessages);
               const firstMessage = allErrors[0] || "Some required fields are still empty!";
               set({ submitting: false, errorMsg: firstMessage })
-              toast.error("Project creation failed", {
+              toast.error("Task creation failed", {
                 description: firstMessage,
               })
 
@@ -68,12 +69,12 @@ export const useCreateProjectStore =
                 message = allErrors[0] || "Some required fields are still empty!";
               }
               set({ submitting: false, errorMsg: message })
-              toast.error("Project creation failed", {
+              toast.error("Task creation failed", {
                 description: message,
               });
             } else {
               set({ submitting: false, errorMsg: 'Internal server error. Please try again!' })
-              toast.error("Project creation failed", {
+              toast.error("Task creation failed", {
                 description: 'Internal server error. Please try again!',
               });
             }

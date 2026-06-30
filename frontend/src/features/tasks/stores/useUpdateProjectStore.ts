@@ -1,12 +1,12 @@
 import { formatBackendErrors } from "../../../shared/handlers/error_handler";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { ICreateProjectStore } from "../types/ICreateProjectStore";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import type { IUpdateProjectStore } from "../types/IUpdateProjectStore";
 
-export const useCreateProjectStore =
-  create<ICreateProjectStore>()(
+export const useUpdateProjectStore =
+  create<IUpdateProjectStore>()(
     devtools((set) => ({
       submitting: false,
       successMsg: "",
@@ -19,19 +19,19 @@ export const useCreateProjectStore =
           errorMsg: "",
         }),
 
-      handleCreateProject: async (
+      handleUpdateProject: async (
         formData,
         mutate,
         queryClient,
-        handleCreateProjectModalClose
+        handleEditProjectModalClose
       ) => {
         set({ submitting: true, errorMsg: "", successMsg: "" });
 
         mutate(formData, {
           onSuccess(response) {
-            const { status_code, message, data } = response.data;
+            const { status_code, message } = response.data;
 
-            if (status_code === 200 || status_code === 201) {
+            if (status_code === 200) {
               set({
                 submitting: false,
                 successMsg: message,
@@ -39,18 +39,17 @@ export const useCreateProjectStore =
               queryClient.invalidateQueries({
                 queryKey: ["projects"],
               });
-
-              toast.success("Project creation successful", {
+              toast.success("Project updated successfully", {
                 description: message,
               });
 
-              handleCreateProjectModalClose()
+              handleEditProjectModalClose()
             } else if (status_code >= 400 && status_code < 500) {
               const errorMessages = message;
               const allErrors = formatBackendErrors(errorMessages);
               const firstMessage = allErrors[0] || "Some required fields are still empty!";
               set({ submitting: false, errorMsg: firstMessage })
-              toast.error("Project creation failed", {
+              toast.error("Project updated failed", {
                 description: firstMessage,
               })
 
@@ -68,12 +67,12 @@ export const useCreateProjectStore =
                 message = allErrors[0] || "Some required fields are still empty!";
               }
               set({ submitting: false, errorMsg: message })
-              toast.error("Project creation failed", {
+              toast.error("Project updated failed", {
                 description: message,
               });
             } else {
               set({ submitting: false, errorMsg: 'Internal server error. Please try again!' })
-              toast.error("Project creation failed", {
+              toast.error("Project updated failed", {
                 description: 'Internal server error. Please try again!',
               });
             }

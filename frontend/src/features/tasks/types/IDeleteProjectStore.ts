@@ -1,19 +1,17 @@
 import type { FormState } from "../../../shared/types/IFormState";
-import type { ProjectFormData } from "../dtos/projectSchema";
 import type { QueryClient, UseMutateFunction } from "@tanstack/react-query";
 import type { IApiResponse } from "../../../shared/types/IApiResponse";
 
-export interface IProjectStore extends FormState {
+export interface IDeleteProjectStore extends FormState {
   reset: () => void;
-  handleCreateProject: (
-    formData: ProjectFormData,
+  handleDeleteProject: (
+    project_id: string,
     mutate: UseMutateFunction<
       { data: IApiResponse<any> },
       Error,
-      ProjectFormData,
+      string,
       unknown
     >,
     queryClient: QueryClient,
-    handleCreateProjectModalClose: () => void
   ) => void;
 }
