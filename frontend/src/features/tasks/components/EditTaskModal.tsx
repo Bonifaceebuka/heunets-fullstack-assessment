@@ -5,92 +5,114 @@ import {
   DialogActions,
   Button,
   TextField,
-  MenuItem,
   Box,
+  MenuItem,
 } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
+import type { ITask } from "../types/ITask";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateTask } from "../apis/createTaskApi";
-import { createTaskSchema, type CreateTaskFormData } from "../dtos/createTaskSchema";
-import { useCreateTaskStore } from "../stores/useCreateTaskStore";
-import { useGetUsers } from "../../auth/api/getUsers";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateTask } from "../apis/updateTaskApi";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useUpdateTaskStore } from "../stores/useUpdateTaskStore";
+import { updateTaskSchema, type UpdateTaskFormData } from "../dtos/updateTaskSchema";
+import { useEffect } from "react";
+import { useGetUsers } from "../../auth/api/getUsers";
 
-export default function CreateTaskModal({
-  createTaskModalOpen,
-  handleCreateTaskModalClose,
-  projectId
+export default function EditTaskModal({
+  editTaskModalOpen,
+  handleEditTaskModalClose,
+  selectedTask
 }: {
-  createTaskModalOpen: boolean,
-  handleCreateTaskModalClose: () => void
-  projectId: string
+  editTaskModalOpen: boolean,
+  handleEditTaskModalClose: () => void,
+  selectedTask: ITask
 }) {
   const queryClient = useQueryClient();
-  const { mutate } = useCreateTask();
+  const { mutate } = useUpdateTask();
   const { data: users } = useGetUsers()
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<CreateTaskFormData>({
-    resolver: zodResolver(createTaskSchema),
+  } = useForm<UpdateTaskFormData>({
+    resolver: zodResolver(updateTaskSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      assigned_to: "",
-      status: "todo",
-      project_id: projectId,
-      priority: "medium",
-      start_date: undefined,
-      end_date: undefined
+      title: selectedTask?.title,
+      _id: selectedTask?._id,
+      description: selectedTask?.description,
+      assigned_to: selectedTask?.assigned_to || "",
+      status: selectedTask?.status || "todo",
+      priority: selectedTask?.priority || "low",
+      start_date: selectedTask?.start_date,
+      end_date: selectedTask?.end_date,
     },
   });
 
-  const { submitting, handleCreateTask } = useCreateTaskStore();
-  const handleCreateTaskFormSubmit = async (createTaskData: CreateTaskFormData) => {
+  const { submitting, handleUpdateTask } = useUpdateTaskStore();
+  const handleUpdateTaskFormSubmit = async (updateTaskSchema: UpdateTaskFormData) => {
     const data = {
-      ...createTaskData,
-      project_id: projectId
+      _id: selectedTask._id,
+      ...updateTaskSchema
     }
-    handleCreateTask(data, mutate, queryClient, handleCreateTaskModalClose);
+    console.log({ data })
+
+    handleUpdateTask(data, mutate, queryClient, handleEditTaskModalClose);
   };
 
+
+  useEffect(() => {
+    if (selectedTask) {
+      reset({
+        title: selectedTask?.title,
+        description: selectedTask?.description,
+        _id: selectedTask?._id,
+        status: selectedTask?.status || "todo",
+        priority: selectedTask?.priority || "low",
+        assigned_to: selectedTask?.assigned_to || "",
+        start_date: selectedTask?.start_date,
+        end_date: selectedTask?.end_date,
+      });
+    }
+  }, [selectedTask, reset]);
   return (
     <Dialog
-      open={createTaskModalOpen}
-      onClose={handleCreateTaskModalClose}
+      open={editTaskModalOpen}
+      onClose={handleEditTaskModalClose}
       fullWidth
       maxWidth="sm"
     >
-      <DialogTitle>Create Task</DialogTitle>
       <Box
         component='form'
         sx={{ mt: 1 }}
-        onSubmit={handleSubmit(handleCreateTaskFormSubmit)}
+        onSubmit={handleSubmit(handleUpdateTaskFormSubmit)}
         noValidate
       >
+        <DialogTitle>Update Task</DialogTitle>
+
         <DialogContent>
           <TextField
-            label="Task Name"
+            label="Task Title"
             fullWidth
             margin="normal"
             disabled={submitting}
             {...register("title")}
             error={!!errors.title}
+            defaultValue={selectedTask?.title}
             helperText={errors.title?.message}
           />
 
-          <TextField
+<TextField
             select
             label="Status"
             fullWidth
-            defaultValue="todo"
             margin="normal"
             disabled={submitting}
             {...register("status")}
             error={!!errors.status}
+            defaultValue={selectedTask?.status}
             helperText={errors.status?.message}
           >
             <MenuItem value="todo">Todo</MenuItem>
@@ -98,11 +120,11 @@ export default function CreateTaskModal({
             <MenuItem value="completed">Completed</MenuItem>
           </TextField>
 
-          <TextField
+<TextField
             select
             label="Priority"
             fullWidth
-            defaultValue="medium"
+            defaultValue={selectedTask?.priority}
             margin="normal"
             disabled={submitting}
             {...register("priority")}
@@ -119,10 +141,10 @@ export default function CreateTaskModal({
             label="Assignee"
             fullWidth
             margin="normal"
-            defaultValue=""
             disabled={submitting}
             {...register("assigned_to")}
             error={!!errors.assigned_to}
+            defaultValue={selectedTask?.assigned_to || ""}
             helperText={errors.assigned_to?.message}
           >
             {users?.data?.map((user: any) => (
@@ -140,6 +162,7 @@ export default function CreateTaskModal({
             disabled={submitting}
             {...register("start_date")}
             error={!!errors.start_date}
+            defaultValue={selectedTask?.start_date}
             helperText={errors.start_date?.message}
           />
           <TextField
@@ -150,8 +173,10 @@ export default function CreateTaskModal({
             disabled={submitting}
             {...register("end_date")}
             error={!!errors.end_date}
+            defaultValue={selectedTask?.end_date}
             helperText={errors.end_date?.message}
           />
+
           <TextField
             label="Description"
             fullWidth
@@ -161,13 +186,13 @@ export default function CreateTaskModal({
             disabled={submitting}
             {...register("description")}
             error={!!errors.description}
+            defaultValue={selectedTask?.description}
             helperText={errors.description?.message}
           />
-
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleCreateTaskModalClose}>
+          <Button onClick={handleEditTaskModalClose}>
             Cancel
           </Button>
 
@@ -176,11 +201,10 @@ export default function CreateTaskModal({
             loading={submitting}
             type='submit'
           >
-            Create Task
+            Update Task
           </LoadingButton>
         </DialogActions>
       </Box>
-
     </Dialog>
   )
 }

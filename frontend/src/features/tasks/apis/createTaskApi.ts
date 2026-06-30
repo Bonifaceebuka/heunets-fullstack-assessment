@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { axios } from '../../../shared/configs/axios';
-import type { TaskFormData } from '../dtos/createTaskSchema';
+import type { CreateTaskFormData } from '../dtos/createTaskSchema';
 import { setAuthToken } from "../../auth/utils";
 
-const createTask = async (taskData: TaskFormData) => {
+const createTask = async (taskData: CreateTaskFormData) => {
   setAuthToken();
   const projectId = taskData.project_id;
   delete taskData.project_id;

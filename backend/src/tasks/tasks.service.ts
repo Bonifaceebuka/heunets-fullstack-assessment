@@ -168,12 +168,6 @@ export class TaskService {
 
     async updateOneTask(user: User, task_id: string, updateTaskDto: UpdateTaskDto): Promise<ServiceResponseDTO> {
       let message;
-      const submittedFields: any = Object.fromEntries(
-            Object.entries({
-                name: updateTaskDto?.name,
-                description: updateTaskDto?.description,
-            }).filter(([, value]) => value !== undefined)
-        );
       if(!task_id){
         message = "Task ID is required!"
         this.logger.error(message)
@@ -194,7 +188,7 @@ export class TaskService {
       await this.taskRepository.updateOne({
         user: user?._id,
         _id: taskId
-      },{...submittedFields});
+      },{...updateTaskDto});
       return {
         successful: true,
         data: task,

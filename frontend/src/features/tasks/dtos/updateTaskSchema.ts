@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createTaskSchema = z.object({
+export const updateTaskSchema = z.object({
   title: z
     .string()
     .min(1, { message: "Task title is required" })
@@ -18,7 +18,7 @@ export const createTaskSchema = z.object({
   end_date: z
     .string()
     .optional(),
-  project_id: z
+  _id: z
     .string(),
   description: z
     .string()
@@ -26,4 +26,4 @@ export const createTaskSchema = z.object({
     .min(50, { message: "Task description must be at least 50 characters" }),
 });
 
-export type CreateTaskFormData = z.infer<typeof createTaskSchema>;
+export type UpdateTaskFormData = z.infer<typeof updateTaskSchema>;

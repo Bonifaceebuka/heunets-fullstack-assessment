@@ -3,10 +3,10 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import type { IUpdateProjectStore } from "../types/IUpdateProjectStore";
+import type { IUpdateTaskStore } from "../types/IUpdateTaskStore";
 
-export const useUpdateProjectStore =
-  create<IUpdateProjectStore>()(
+export const useUpdateTaskStore =
+  create<IUpdateTaskStore>()(
     devtools((set) => ({
       submitting: false,
       successMsg: "",
@@ -19,11 +19,11 @@ export const useUpdateProjectStore =
           errorMsg: "",
         }),
 
-      handleUpdateProject: async (
+      handleUpdateTask: async (
         formData,
         mutate,
         queryClient,
-        handleEditProjectModalClose
+        handleEditTaskModalClose
       ) => {
         set({ submitting: true, errorMsg: "", successMsg: "" });
 
@@ -37,19 +37,19 @@ export const useUpdateProjectStore =
                 successMsg: message,
               });
               queryClient.invalidateQueries({
-                queryKey: ["projects"],
+                queryKey: ["tasks"],
               });
-              toast.success("Project updated successfully", {
+              toast.success("Task updated successfully", {
                 description: message,
               });
 
-              handleEditProjectModalClose()
+              handleEditTaskModalClose()
             } else if (status_code >= 400 && status_code < 500) {
               const errorMessages = message;
               const allErrors = formatBackendErrors(errorMessages);
               const firstMessage = allErrors[0] || "Some required fields are still empty!";
               set({ submitting: false, errorMsg: firstMessage })
-              toast.error("Project updated failed", {
+              toast.error("Task updated failed", {
                 description: firstMessage,
               })
 
@@ -67,12 +67,12 @@ export const useUpdateProjectStore =
                 message = allErrors[0] || "Some required fields are still empty!";
               }
               set({ submitting: false, errorMsg: message })
-              toast.error("Project updated failed", {
+              toast.error("Task updated failed", {
                 description: message,
               });
             } else {
               set({ submitting: false, errorMsg: 'Internal server error. Please try again!' })
-              toast.error("Project updated failed", {
+              toast.error("Task updated failed", {
                 description: 'Internal server error. Please try again!',
               });
             }

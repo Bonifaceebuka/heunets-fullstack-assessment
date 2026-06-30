@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Project.css";
 import { useState } from "react";
 import CreateTaskModal from "../components/CreateTaskModal";
-import EditProjectModal from "../components/EditProjectModal";
 import { useParams } from "react-router-dom";
 import { useGetTasks } from "../apis/getTasks";
 import Loading from "../../../shared/common/Loading";
@@ -17,6 +16,7 @@ import {
   TableRow,
   Button,
 } from "@mui/material";
+import EditTaskModal from "../components/EditTaskModal";
 
 export default function Tasks() {
   const params = useParams();
@@ -28,9 +28,10 @@ export default function Tasks() {
   const handleCreateTaskModalOpen = () => setCreateTaskModalOpen(true);
   const handleCreateTaskModalClose = () => setCreateTaskModalOpen(false);
 
-  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
-  const handleEditProjectModalOpen = () => setEditProjectModalOpen(true);
-  const handleEditProjectModalClose = () => setEditProjectModalOpen(false);
+  const [editTaskModalOpen, setEditTaskModalOpen] = useState(false);
+  const handleEditTaskModalOpen = () => setEditTaskModalOpen(true);
+  const handleEditTaskModalClose = () => setEditTaskModalOpen(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   return (
     <main className="projects-page">
@@ -85,7 +86,12 @@ export default function Tasks() {
                         variant="outlined"
                         color="warning"
                         size="small"
-                        onClick={handleEditProjectModalOpen}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelectedTask(null);
+                          setSelectedTask(task);
+                          handleEditTaskModalOpen()
+                        }}
                       >
                         Edit
                       </Button>
@@ -94,10 +100,13 @@ export default function Tasks() {
                     <TableCell sx={{maxWidth:30}} align="center">
                       <Button
                         variant="outlined"
-                        size="small"
-                        onClick={() => navigate(`/tasks/${task._id}`)}
+                        color="error"
+                        onClick={(e) => {
+                          e.preventDefault();
+                        // handleDeleteDialogOpen(project)
+                        }}
                       >
-                        View
+                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -112,7 +121,7 @@ export default function Tasks() {
         projectId={projectId}
         handleCreateTaskModalClose={handleCreateTaskModalClose}
       />
-      <EditProjectModal editProjectModalOpen={editProjectModalOpen} handleEditProjectModalClose={handleEditProjectModalClose} />
+      <EditTaskModal editTaskModalOpen={editTaskModalOpen} handleEditTaskModalClose={handleEditTaskModalClose} selectedTask={selectedTask} />
     </main>
   );
 }
