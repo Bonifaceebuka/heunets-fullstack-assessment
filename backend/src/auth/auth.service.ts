@@ -101,7 +101,6 @@ export class AuthService {
       email: userEmail
     });
 
-    console.log({userSigninInputsDto})
     if (!foundUser) {
       message = dynamic_messages.NOT_FOUND("User")
       this.logger.error(message)

@@ -77,7 +77,6 @@ export const useSigninStore =
             }
           },
           onError(error) {
-            console.log({error})
             set({ submitting: false });
             toast.error("Account login failed",{
                 description: error.message,

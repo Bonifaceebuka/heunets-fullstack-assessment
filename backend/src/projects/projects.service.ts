@@ -12,7 +12,8 @@ import { UpdateProjectDto } from './dtos/update-project-inputs.dto';
 export class ProjectService {
   private readonly logger: Logger;
   constructor(
-    private readonly projectRepository: ProjectRepository
+    private readonly projectRepository: ProjectRepository,
+    private readonly taskRepository: ProjectRepository
   ) {
     this.logger = new Logger(ProjectService.name);
   }
@@ -98,6 +99,11 @@ export class ProjectService {
       _id: projectId,
       user: user?._id
     });
+
+    await this.taskRepository.delete({
+      project: projectId,
+      user: user?._id
+    });
     return {
       successful: true,
       data: null,
@@ -129,10 +135,7 @@ export class ProjectService {
       this.logger.error(message)
       throw new AppError(message)
     }
-
-    console.log({updateProjectDto})
-    console.log({submittedFields})
-    console.log({project_id})
+    
     await this.projectRepository.updateOne({
       user: user?._id,
       _id: projectId

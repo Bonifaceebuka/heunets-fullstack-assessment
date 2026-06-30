@@ -17,6 +17,7 @@ This  project was built and tested on a Windows 11 64-bit Operating System with 
 - **Node.js**
 - **NestJS**
 - **MongoDB**
+- **Winston log**
 - **Swagger UI**
 - **Dotenv**
 - **Passport JWT**

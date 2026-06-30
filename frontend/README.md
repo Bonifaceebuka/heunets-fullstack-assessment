@@ -18,6 +18,7 @@ This  project was built and tested on a Windows 11 64-bit Operating System with 
 - **TypeScript**
 - **Vite**
 - **Zustand**
+- **Zod**
 - **Axios**
 - **Tanstack Query**
 - **Tailwind CSS**
