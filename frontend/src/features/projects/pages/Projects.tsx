@@ -5,6 +5,7 @@ import { useState } from "react";
 import CreateProjectModal from "../components/CreateProjectModal";
 import EditProjectModal from "../components/EditProjectModal";
 import { Button } from "@mui/material";
+import DeletePorjectModal from "../components/DeletePorjectModal";
 
 export default function Projects() {
   const {
@@ -20,6 +21,12 @@ export default function Projects() {
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const handleEditProjectModalOpen = () => setEditProjectModalOpen(true);
   const handleEditProjectModalClose = () => setEditProjectModalOpen(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleDeleteDialogOpen = (project: any) => {
+        setSelectedProject(project);
+        setDeleteDialogOpen(true);
+    };
 
   return (
     <main className="projects-page">
@@ -92,7 +99,7 @@ export default function Projects() {
                     color="error"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleEditProjectModalOpen()
+                     handleDeleteDialogOpen(project)
                     }}
                   >
                     Delete
@@ -113,6 +120,13 @@ export default function Projects() {
         editProjectModalOpen={editProjectModalOpen}
         handleEditProjectModalClose={handleEditProjectModalClose}
         selectedProject={selectedProject}
+      />
+
+      <DeletePorjectModal
+        deleteDialogOpen={deleteDialogOpen}
+        setDeleteDialogOpen={setDeleteDialogOpen}
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
       />
     </main>
   );

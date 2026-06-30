@@ -51,7 +51,7 @@ export class ProjectController {
   @UseGuards(AccessTokenGuard)
   async fetchOneProject(
     @CurrentUserCtx() user: User,
-    @Param() project_id: string
+    @Param("project_id") project_id: string
   ) {
     const response = await this.projectService.fetchOneProject(user,project_id)
     return {
@@ -66,7 +66,7 @@ export class ProjectController {
   @UseGuards(AccessTokenGuard)
   async deleteOneProject(
     @CurrentUserCtx() user: User,
-    @Param() project_id: string
+    @Param("project_id") project_id: string
   ) {
     const response = await this.projectService.deleteOneProject(user,project_id)
     return {
