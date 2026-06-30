@@ -13,19 +13,17 @@ export const createTaskSchema = z.object({
     .string()
     .optional(),
   start_date: z
-    .date()
+    .string()
     .optional(),
   end_date: z
-    .date()
+    .string()
     .optional(),
   project_id: z
-    .string()
-    .min(1, { message: "Task project is required" })
-    .min(3, { message: "Task project must be at least 3 characters" }),
+    .string(),
   description: z
     .string()
     .min(1, { message: "Task description is required" })
-    .min(3, { message: "Task description must be at least 3 characters" }),
+    .min(50, { message: "Task description must be at least 50 characters" }),
 });
 
 export type TaskFormData = z.infer<typeof createTaskSchema>;

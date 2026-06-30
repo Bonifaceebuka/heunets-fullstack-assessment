@@ -49,7 +49,7 @@ export default function Projects() {
 
           <thead>
             <tr>
-              <th>Project</th>
+              <th>Name</th>
               <th>Description</th>
               <th></th>
               <th></th>

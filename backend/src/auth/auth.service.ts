@@ -140,4 +140,13 @@ export class AuthService {
       message
     }
   }
+
+  async fetchUsers(): Promise<ServiceResponseDTO> {
+    const users = await this.userRepository.findMany({})
+    return {
+      data: users,
+      successful: true,
+      message: "Users fetched successfully!"
+    }
+  }
 }

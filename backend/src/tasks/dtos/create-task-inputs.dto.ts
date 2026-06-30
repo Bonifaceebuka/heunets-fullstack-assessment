@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, MaxLength } from "class-validator";
+import { IsNotEmpty, IsOptional, MaxLength } from "class-validator";
 import { IsString, MinLength } from "class-validator";
 
 export class CreateTaskDto {
@@ -34,18 +34,18 @@ export class CreateTaskDto {
   @ApiProperty({ required: false, example: 'pending' })
   status!: string;
 
-    @IsString()
-  @IsNotEmpty()
+  @IsString()
+  @IsOptional()
   @ApiProperty({ required: false, example: '2026-06-29' })
-  end_date!: string;
+  end_date?: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ required: false, example: '2026-06-29' })
-  start_date!: string;
+  start_date?: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ required: false, example: 'low' })
-  assigned_to!: string;
+  assigned_to?: string;
 }

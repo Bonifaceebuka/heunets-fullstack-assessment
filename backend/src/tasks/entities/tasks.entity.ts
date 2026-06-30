@@ -38,7 +38,7 @@ export class Task extends BaseEntity {
     required: true,
     index: true,
   })
-  created_by!: Types.ObjectId;
+  user!: Types.ObjectId;
 
   @Prop({
     type: Types.ObjectId,

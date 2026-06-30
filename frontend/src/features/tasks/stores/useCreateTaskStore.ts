@@ -38,7 +38,7 @@ export const useCreateTaskStore =
                 successMsg: message,
               });
               queryClient.invalidateQueries({
-                queryKey: ["tasks"],
+                queryKey: ["tasks", data.project_id],
               });
 
               toast.success("Task creation successful", {

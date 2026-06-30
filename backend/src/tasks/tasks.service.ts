@@ -57,7 +57,7 @@ export class TaskService {
         start_date,
         end_date,
         assigned_to: assignedTo?._id,
-        created_by: user?._id,
+        user: user?._id,
         project: project._id
       });
   
@@ -66,7 +66,8 @@ export class TaskService {
         successful: true,
         data: {
           id: task?._id,
-          full_name: task?.title
+          project_id: project._id,
+          title: task?.title
         },
         message: "Your task was created successfully!"
       };

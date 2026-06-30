@@ -4,16 +4,25 @@ import { useState } from "react";
 import CreateTaskModal from "../components/CreateTaskModal";
 import EditProjectModal from "../components/EditProjectModal";
 import { useParams } from "react-router-dom";
-import { useGetOneTask } from "../apis/get-tasks";
+import { useGetTasks } from "../apis/getTasks";
 import Loading from "../../../shared/common/Loading";
 import NoTasksCard from "../components/NoTaskFound";
-import { Button } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+} from "@mui/material";
 
 export default function Tasks() {
   const params = useParams();
   const navigate = useNavigate()
   const projectId = params.projectId;
-  const { data: tasks, isLoading } = useGetOneTask(projectId);
+  const { data: tasks, isLoading } = useGetTasks(projectId);
 
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
   const handleCreateTaskModalOpen = () => setCreateTaskModalOpen(true);
@@ -50,62 +59,59 @@ export default function Tasks() {
         ) : (tasks?.data?.tasks || []).length === 0 ? (
           <NoTasksCard onCreateTask={handleCreateTaskModalOpen} />
         ) : (
-          <table className="project-table">
+          <TableContainer component={Paper}>
+            <Table sx={{
+                width: "100%",
+                overflowX: "auto",
+              }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell><strong>Title</strong></TableCell>
+                  <TableCell><strong>Description</strong></TableCell>
+                  <TableCell align="center"><strong>Edit</strong></TableCell>
+                  <TableCell align="center"><strong>View</strong></TableCell>
+                </TableRow>
+              </TableHead>
 
-            <thead>
-              <tr>
-                <th>Project</th>
-                <th>Description</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
+              <TableBody>
+                {tasks?.data?.tasks?.map((task: any) => (
+                  <TableRow key={task._id}>
+                    <TableCell>{task.title}</TableCell>
 
-            <tbody>
+                    <TableCell sx={{maxWidth:300}}>{task.description}</TableCell>
 
-              {tasks?.data?.map((project: any) => (
+                    <TableCell sx={{maxWidth:30}} align="center">
+                      <Button
+                        variant="outlined"
+                        color="warning"
+                        size="small"
+                        onClick={handleEditProjectModalOpen}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
 
-                <tr key={project.id}>
-
-                  <td data-label="Project">
-                    <strong>{project.name}</strong>
-                  </td>
-
-                  <td data-label="Description">
-                    {project.description}
-                  </td>
-
-                  <td>
-                    <Link
-                      to={`/projects/${project.id}`}
-                      className="view-btn"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleEditProjectModalOpen()
-                      }}
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={`/projects/${project.id}`}
-                      className="view-btn"
-                    >
-                      View
-                    </Link>
-                  </td>
-
-                </tr>
-
-              ))}
-
-            </tbody>
-
-          </table>
+                    <TableCell sx={{maxWidth:30}} align="center">
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => navigate(`/tasks/${task._id}`)}
+                      >
+                        View
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </div>
-      <CreateTaskModal createTaskModalOpen={createTaskModalOpen} handleCreateTaskModalClose={handleCreateTaskModalClose} />
+      <CreateTaskModal
+        createTaskModalOpen={createTaskModalOpen}
+        projectId={projectId}
+        handleCreateTaskModalClose={handleCreateTaskModalClose}
+      />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} handleEditProjectModalClose={handleEditProjectModalClose} />
     </main>
   );
