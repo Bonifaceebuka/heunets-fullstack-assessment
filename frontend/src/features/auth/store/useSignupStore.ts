@@ -48,25 +48,21 @@ export const useSignupStore =
               });
               queryClient.setQueryData(["user"], data);
 
-              setTimeout(() => {
-                toast.success("Account creation successful",{
+              toast.success("Account creation successful",{
                   description: message,
                 });
-                navigate("/login");
-              }, 1500);
-            } else if (status_code === 400) {
 
+              navigate("/login");
+            } else if (status_code >= 400 && status_code < 500) {
               const errorMessages = message;
               const firstMessage = Array.isArray(errorMessages)
                 ? formatValidationMessage(
                   errorMessages as unknown as ErrorMessages
                 )[0] || "Some required fields are still empty!"
                 : errorMessages;
-              setTimeout(() => {
-                toast.error("Account creation failed",{
+              toast.error("Account creation failed",{
                 description: firstMessage,
               })
-              }, 1500);
 
               set({ submitting: false, errorMsg: firstMessage });
             } else {
@@ -74,21 +70,18 @@ export const useSignupStore =
                 submitting: false,
                 errorMsg: "Something went wrong. Please try again!",
               });
-              setTimeout(() => {
-                toast.error("Account creation failed",{
+
+              toast.error("Account creation failed",{
                 description: "Something went wrong. Please try again!",
               })
-              }, 1500);
               return
             }
           },
           onError(error) {
             set({ submitting: false });
-            setTimeout(() => {
-              toast.error("Account creation failed",{
+            toast.error("Account creation failed",{
                 description: error.message,
               });
-            }, 1500);
           },
         });
       },

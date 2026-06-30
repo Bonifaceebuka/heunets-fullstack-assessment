@@ -48,13 +48,11 @@ export const useSigninStore =
               });
               queryClient.setQueryData(["user"], data);
 
-              setTimeout(() => {
-                toast.success("Account login successful",{
+              toast.success("Account login successful",{
                   description: message,
                 });
-                navigate("/projects");
-              }, 1500);
-            } else if (status_code === 400) {
+              navigate("/projects");
+            } else if (status_code >= 400 && status_code < 500) {
 
               const errorMessages = message;
               const firstMessage = Array.isArray(errorMessages)
@@ -62,11 +60,9 @@ export const useSigninStore =
                   errorMessages as unknown as ErrorMessages
                 )[0] || "Some required fields are still empty!"
                 : errorMessages;
-              setTimeout(() => {
-                toast.error("Account login failed",{
+              toast.error("Account login failed",{
                 description: firstMessage,
               })
-              }, 1500);
 
               set({ submitting: false, errorMsg: firstMessage });
             } else {
@@ -74,21 +70,18 @@ export const useSigninStore =
                 submitting: false,
                 errorMsg: "Something went wrong. Please try again!",
               });
-              setTimeout(() => {
-                toast.error("Account login failed",{
+              toast.error("Account login failed",{
                 description: "Something went wrong. Please try again!",
               })
-              }, 1500);
               return
             }
           },
           onError(error) {
+            console.log({error})
             set({ submitting: false });
-            setTimeout(() => {
-              toast.error("Account login failed",{
+            toast.error("Account login failed",{
                 description: error.message,
               });
-            }, 1500);
           },
         });
       },

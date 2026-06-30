@@ -7,8 +7,6 @@ export default function Projects() {
     data: projects,
   } = useGetProjects();
 
-  console.log(projects)
-
   return (
     <main className="projects-page">
 
@@ -35,7 +33,6 @@ export default function Projects() {
               <th></th>
             </tr>
           </thead>
-
 
           <tbody>
 
