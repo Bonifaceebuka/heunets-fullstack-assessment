@@ -1,21 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Project.css";
 import { useState } from "react";
-import CreateProjectModal from "../components/CreateProjectModal";
+import CreateTaskModal from "../components/CreateTaskModal";
 import EditProjectModal from "../components/EditProjectModal";
 import { useParams } from "react-router-dom";
 import { useGetOneTask } from "../apis/get-tasks";
 import Loading from "../../../shared/common/Loading";
 import NoTasksCard from "../components/NoTaskFound";
+import { Button } from "@mui/material";
 
 export default function Tasks() {
   const params = useParams();
+  const navigate = useNavigate()
   const projectId = params.projectId;
   const { data: tasks, isLoading } = useGetOneTask(projectId);
 
-  const [createProjectModalOpen, setCreateProjectModalOpen] = useState(false);
-  const handleCreateProjectModalOpen = () => setCreateProjectModalOpen(true);
-  const handleCreateProjectModalClose = () => setCreateProjectModalOpen(false);
+  const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
+  const handleCreateTaskModalOpen = () => setCreateTaskModalOpen(true);
+  const handleCreateTaskModalClose = () => setCreateTaskModalOpen(false);
 
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const handleEditProjectModalOpen = () => setEditProjectModalOpen(true);
@@ -26,20 +28,27 @@ export default function Tasks() {
 
       <header className="projects-header">
         <div>
+          <Button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(-1)}
+          >
+            ← Back
+          </Button>
           <h1>Manage {tasks?.data?.project_name}'s tasks</h1>
           <p>Manage your team's tasks</p>
         </div>
 
-        <button className="primary-btn" onClick={handleCreateProjectModalOpen}>
+        <Button variant="outlined" onClick={handleCreateTaskModalOpen}>
           + New Task
-        </button>
+        </Button>
       </header>
 
       <div className="project-table-wrapper">
         {isLoading ? (
           <Loading fullHeight />
         ) : (tasks?.data?.tasks || []).length === 0 ? (
-          <NoTasksCard onCreateTask={handleCreateProjectModalOpen} />
+          <NoTasksCard onCreateTask={handleCreateTaskModalOpen} />
         ) : (
           <table className="project-table">
 
@@ -96,7 +105,7 @@ export default function Tasks() {
           </table>
         )}
       </div>
-      <CreateProjectModal createProjectModalOpen={createProjectModalOpen} handleCreateProjectModalClose={handleCreateProjectModalClose} />
+      <CreateTaskModal createTaskModalOpen={createTaskModalOpen} handleCreateTaskModalClose={handleCreateTaskModalClose} />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} handleEditProjectModalClose={handleEditProjectModalClose} />
     </main>
   );

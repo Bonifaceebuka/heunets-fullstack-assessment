@@ -61,7 +61,7 @@ export default function Projects() {
                 <td data-label="Description">
                   {project.description}
                 </td>
-<td>
+                <td>
                   <Link
                     to={`/projects/${project._id}/tasks`}
                     className="view-btn"
@@ -73,7 +73,7 @@ export default function Projects() {
                   <Link
                     to={`#`}
                     className="view-btn"
-                    onClick={(e) =>{
+                    onClick={(e) => {
                       e.preventDefault();
                       handleEditProjectModalOpen()
                     }}
@@ -85,7 +85,7 @@ export default function Projects() {
                   <Link
                     to={`#`}
                     className="view-btn"
-                    onClick={(e) =>{
+                    onClick={(e) => {
                       e.preventDefault();
                       handleEditProjectModalOpen()
                     }}

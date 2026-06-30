@@ -7,11 +7,11 @@ import {
   TextField,
 } from "@mui/material";
 
-export default function CreateProjectModal({createProjectModalOpen, handleCreateProjectModalClose}: {createProjectModalOpen: boolean, handleCreateProjectModalClose: () => void}) {
+export default function CreateTaskModal({createTaskModalOpen, handleCreateTaskModalClose}: {createTaskModalOpen: boolean, handleCreateTaskModalClose: () => void}) {
   return (
       <Dialog
-        open={createProjectModalOpen}
-        onClose={handleCreateProjectModalClose}
+        open={createTaskModalOpen}
+        onClose={handleCreateTaskModalClose}
         fullWidth
         maxWidth="sm"
       >
@@ -34,12 +34,12 @@ export default function CreateProjectModal({createProjectModalOpen, handleCreate
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleCreateProjectModalClose}>
+          <Button onClick={handleCreateTaskModalClose}>
             Cancel
           </Button>
 
           <Button variant="contained">
-            Create Project
+            Create Task
           </Button>
         </DialogActions>
       </Dialog>
